@@ -1,50 +1,58 @@
-# React + TypeScript + Vite
+## 1. Setting
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+```bash
+# Install package
+npm install
 
-Currently, two official plugins are available:
+# Run dev server
+npm run dev
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Build project
+npm build
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Run Production Preview
+npm run preview
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 2. Branch Convention
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+ex) feat/login-ui
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+- main: 서비스 운영
+- develop: 배포 전 개발용
+- feat: 기능 단위 구현
+- refactor: 코드 리팩토링
+- hotfix: 배포 버전 버그 수정
+
+## 3. 폴더구조
+
 ```
+src/
+├── apis // api 호출 함수 관리
+├── assets // 각종 이미지 파일 관리
+├── components // 컴포넌트 관리
+│   ├── common // 공통 컴포넌트
+│   └── login
+│       ...
+├── constant // 전역 상수 관리
+├── hooks // custom hook 관리
+├── pages
+│   └── main
+│       ...
+├── store // 전역 상태 관리
+├── type // 공유 타입 관리
+├── utils // 각종 유틸 함수 관리
+├── App.tsx // 페이지별 routing
+├── index.css // 전역 css 관리
+└── main.tsx
+```
+
+## 4. Commit Convention
+
+- feat: 기능 구현, 추가
+- setting: 빌드수행, 패키지 설치, 환경 설정 수정 등
+- fix: 버그 및 오류 수정
+- style: css 파일 위주의 ui 작업
+- docs: README.md 작성, 주석 작성
+- refactor: 코드 리팩토링
+- chore: 기타 작업
