@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { VitePWA } from "vite-plugin-pwa";
+import { resolve } from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
+
       manifest: {
         name: "Vite PWA Project",
         short_name: "Vite PWA Project",
@@ -40,4 +42,24 @@ export default defineConfig({
       },
     }),
   ],
+
+  resolve: {
+    alias: [
+      { find: "@apis", replacement: resolve(__dirname, "src/apis") },
+      { find: "@assets", replacement: resolve(__dirname, "src/assets") },
+      {
+        find: "@components",
+        replacement: resolve(__dirname, "src/components"),
+      },
+      {
+        find: "@constant",
+        replacement: resolve(__dirname, "src/constant"),
+      },
+      { find: "@hooks", replacement: resolve(__dirname, "src/hooks") },
+      { find: "@pages", replacement: resolve(__dirname, "src/pages") },
+      { find: "@store", replacement: resolve(__dirname, "src/store") },
+      { find: "@type", replacement: resolve(__dirname, "src/type") },
+      { find: "@utils", replacement: resolve(__dirname, "src/utils") },
+    ],
+  },
 });
