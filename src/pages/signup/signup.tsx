@@ -33,7 +33,7 @@ export const SignupPage = () => {
     const response = await registerUser(inputValue);
     console.log(response);
 
-    // 회원가입 변경 실패 예외처리
+    // 회원가입 실패 예외처리
     if (!response || response.data.code === 400) {
       setShowFailedAlert(true);
       const timer = setTimeout(() => {
@@ -42,11 +42,8 @@ export const SignupPage = () => {
       return () => clearTimeout(timer);
     }
 
-    const accessToken = response.data.result.accessToken;
-    // 회원가입 변경 성공
-    localStorage.setItem("accessToken", accessToken);
     setShowFailedAlert(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
