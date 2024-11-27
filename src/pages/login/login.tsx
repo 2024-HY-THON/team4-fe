@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const LoginPage = () => {
@@ -11,20 +12,22 @@ export const LoginPage = () => {
       <Form>
         <InputWrapper>
           <label htmlFor="id">아이디</label>
-          <input id="id" type="text" placeholder="example@email.com" />
+          <input id="id" type="text" placeholder="아이디" />
         </InputWrapper>
 
         <InputWrapper>
           <label htmlFor="pw">비밀번호</label>
-          <input id="pw" type="password" placeholder="password" />
+          <input id="pw" type="password" placeholder="비밀번호" />
         </InputWrapper>
 
-        <SubmitButton type="submit">Sign In</SubmitButton>
+        <SubmitButton type="submit">로그인</SubmitButton>
       </Form>
 
-      <SignUpButton>
-        계정이 없으신가요?<button>회원가입</button>
-      </SignUpButton>
+      <Link to="/signup">
+        <SignUpButton>
+          계정이 없으신가요?<button>회원가입</button>
+        </SignUpButton>
+      </Link>
     </Container>
   );
 };
@@ -35,7 +38,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100vh;
-  padding-top: 80px;
+  padding-top: 100px;
 
   header {
     display: flex;
@@ -43,7 +46,7 @@ const Container = styled.div`
     justify-content: space-between;
     width: 327px;
     height: 64px;
-    margin-bottom: 60px;
+    margin-bottom: 50px;
 
     h1 {
       font-size: 24px;
@@ -119,5 +122,6 @@ const SignUpButton = styled.p`
     color: #1e4ae9;
     background-color: white;
     border: none;
+    cursor: pointer;
   }
 `;
