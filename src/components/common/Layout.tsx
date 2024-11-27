@@ -6,7 +6,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 };
 
 const Container = styled.div`
-  min-width: 360px;
+  min-width: 375px;
   max-width: 400px;
   height: 100vh;
   margin: 0 auto;
