@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { loginUser } from "@apis/signup";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,6 +11,50 @@ export const LoginPage = () => {
     if (accessToken) navigate("/main");
   }, []);
 
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+  });
+  const [inputValid, setInputValid] = useState<boolean>(false);
+  const [showFailedAlert, setShowFailedAlert] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    inputValue.email.length > 0 && inputValue.password.length > 0
+      ? setInputValid(true)
+      : setInputValid(false);
+
+    const { id, value } = e.target;
+
+    setInputValue((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(inputValue);
+    const response = await loginUser(inputValue);
+    console.log(response);
+
+    // 로그인 실패 예외처리
+    if (!response || response.data.code === 400 || response.data.code === 500) {
+      setShowFailedAlert(true);
+      const timer = setTimeout(() => {
+        setShowFailedAlert(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+
+    //로그인 성공
+    const accessToken = response.data.result.accessToken;
+    localStorage.setItem("accessToken", accessToken);
+
+    setShowFailedAlert(false);
+    setInputValid(true);
+    navigate("/main");
+  };
+
   return (
     <Container>
       <header>
@@ -17,18 +62,30 @@ export const LoginPage = () => {
         <p>"하루 5분의 숨통. 당신만의 해방일지"</p>
       </header>
 
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <InputWrapper>
-          <label htmlFor="id">아이디</label>
-          <input id="id" type="text" placeholder="아이디" />
+          <label htmlFor="email">아이디</label>
+          <input
+            id="email"
+            type="text"
+            placeholder="아이디"
+            onChange={handleChange}
+          />
         </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="pw">비밀번호</label>
-          <input id="pw" type="password" placeholder="비밀번호" />
+        <InputWrapper style={{ marginBottom: "40px" }}>
+          <label htmlFor="password">비밀번호</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleChange}
+          />
         </InputWrapper>
 
-        <SubmitButton type="submit">로그인</SubmitButton>
+        <SubmitButton type="submit" disabled={!inputValid}>
+          로그인
+        </SubmitButton>
       </Form>
 
       <Link to="/signup">
@@ -36,6 +93,13 @@ export const LoginPage = () => {
           계정이 없으신가요?<button>회원가입</button>
         </SignUpButton>
       </Link>
+
+      {/* 로그인 실패 */}
+      {showFailedAlert && (
+        <SignupFailedAlert className="absolute top-1/3 flex justify-center items-center w-[344px] h-[64px] rounded-[8px] bg-black-70 text-[16px] font-medium text-white animate-fadeUpToDown">
+          로그인에 실패했습니다
+        </SignupFailedAlert>
+      )}
     </Container>
   );
 };
@@ -73,7 +137,7 @@ const Container = styled.div`
 const Form = styled.form`
   width: 327px;
   height: 220px;
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 `;
 
 const InputWrapper = styled.div`
@@ -115,8 +179,9 @@ const SubmitButton = styled.button`
   font-size: 16px;
   font-weight: 400;
   color: white;
-  background-color: #049dbf;
+  background-color: ${(props) => (props.disabled ? "#9E9E9E" : "#049dbf")};
   border: none;
+  cursor: pointer;
 `;
 
 const SignUpButton = styled.p`
@@ -132,4 +197,31 @@ const SignUpButton = styled.p`
     border: none;
     cursor: pointer;
   }
+`;
+
+const fadeUpToDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const SignupFailedAlert = styled.div`
+  position: absolute;
+  top: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 344px;
+  height: 64px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  animation: ${fadeUpToDown} 0.5s ease-in-out;
 `;
