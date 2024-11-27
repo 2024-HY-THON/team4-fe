@@ -6,6 +6,7 @@ import { MainPage } from "@pages/main/main";
 import { ProfilePage } from "@pages/profile/profile";
 import { RecordsPage } from "@pages/records/records";
 import { SignupPage } from "@pages/signup/signup";
+import { ReviewPage } from "@pages/review/review";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
 
           {/* profile page */}
           <Route path="/profile" element={<ProfilePage />} />
+          {/* review page */}
+          <Route path="/review" element={<ReviewPage />} />
         </Routes>
         <TabNavigator />
       </Layout>
