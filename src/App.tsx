@@ -9,7 +9,7 @@ import { RecordsPage } from "@pages/records/records";
 import { SignupPage } from "@pages/signup/signup";
 import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 
 function App() {
@@ -45,8 +45,11 @@ function App() {
         ) : (
           <>
             <Routes>
+              {/* 토큰 없으면 login으로 리다이렉트 */}
+              <Route path="/" element={<Navigate to="/login" />} />
+
               {/* main page */}
-              <Route path="/" element={<MainPage />} />
+              <Route path="/main" element={<MainPage />} />
 
               {/* login page */}
               <Route path="/login" element={<LoginPage />} />

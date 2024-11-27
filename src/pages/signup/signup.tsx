@@ -42,11 +42,8 @@ export const SignupPage = () => {
       return () => clearTimeout(timer);
     }
 
-    const accessToken = response.data.result.accessToken;
-    // 회원가입 변경 성공
-    localStorage.setItem("accessToken", accessToken);
     setShowFailedAlert(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
