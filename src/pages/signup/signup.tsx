@@ -1,9 +1,51 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import prevArrow from "@assets/common/prev-arrow.svg";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "@apis/signup";
+import { useState } from "react";
 
 export const SignupPage = () => {
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState({
+    email: "",
+    password: "",
+    name: "김하냥",
+    phoneNumber: "010-1234-5678",
+  });
+  const [inputValid, setInputValid] = useState<boolean>(false);
+  const [showFailedAlert, setShowFailedAlert] = useState<boolean>(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    inputValue.email.length > 0 && inputValue.password.length > 0
+      ? setInputValid(true)
+      : setInputValid(false);
+
+    const { id, value } = e.target;
+
+    setInputValue((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await registerUser(inputValue);
+    console.log(inputValue);
+
+    // 회원가입 변경 실패 예외처리
+    if (!response) {
+      setShowFailedAlert(true);
+      const timer = setTimeout(() => {
+        setShowFailedAlert(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+
+    // 회원가입 변경 성공
+    setShowFailedAlert(false);
+    navigate("/");
+  };
 
   return (
     <Container>
@@ -16,24 +58,38 @@ export const SignupPage = () => {
         <p>당신만의 소소하지만 확실한 행복 찾기를 함께해요</p>
       </header>
 
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <InputWrapper>
-          <label htmlFor="id">아이디</label>
-          <input id="id" type="text" placeholder="아이디" />
+          <label htmlFor="email">아이디</label>
+          <input
+            id="email"
+            type="text"
+            placeholder="아이디"
+            onChange={handleChange}
+          />
         </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="pw">비밀번호</label>
-          <input id="pw" type="password" placeholder="비밀번호" />
+        <InputWrapper style={{ marginBottom: "40px" }}>
+          <label htmlFor="password">비밀번호</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleChange}
+          />
         </InputWrapper>
 
-        <InputWrapper style={{ marginBottom: "34px" }}>
-          <label htmlFor="pw-check">비밀번호 확인</label>
-          <input id="pw-check" type="password" placeholder="비밀번호 확인" />
-        </InputWrapper>
-
-        <SubmitButton type="submit">회원가입</SubmitButton>
+        <SubmitButton type="submit" disabled={!inputValid}>
+          회원가입
+        </SubmitButton>
       </Form>
+
+      {/* 회원가입 실패 */}
+      {showFailedAlert && (
+        <SignupFailedAlert className="absolute top-1/3 flex justify-center items-center w-[344px] h-[64px] rounded-[8px] bg-black-70 text-[16px] font-medium text-white animate-fadeUpToDown">
+          회원가입에 실패했습니다
+        </SignupFailedAlert>
+      )}
     </Container>
   );
 };
@@ -122,7 +178,34 @@ const SubmitButton = styled.button`
   font-size: 16px;
   font-weight: 400;
   color: white;
-  background-color: #049dbf;
+  background-color: ${(props) => (props.disabled ? "#9E9E9E" : "#049dbf")};
   border: none;
   cursor: pointer;
+`;
+
+const fadeUpToDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const SignupFailedAlert = styled.div`
+  position: absolute;
+  top: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 344px;
+  height: 64px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+  animation: ${fadeUpToDown} 0.5s ease-in-out;
 `;
