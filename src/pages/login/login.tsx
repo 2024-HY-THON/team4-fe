@@ -96,9 +96,7 @@ export const LoginPage = () => {
 
       {/* 로그인 실패 */}
       {showFailedAlert && (
-        <SignupFailedAlert className="absolute top-1/3 flex justify-center items-center w-[344px] h-[64px] rounded-[8px] bg-black-70 text-[16px] font-medium text-white animate-fadeUpToDown">
-          로그인에 실패했습니다
-        </SignupFailedAlert>
+        <SignupFailedAlert>로그인에 실패했습니다</SignupFailedAlert>
       )}
     </Container>
   );

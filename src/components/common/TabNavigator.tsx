@@ -16,14 +16,18 @@ export const TabNavigator = () => {
   return (
     <Wrapper>
       <ul>
-        <Link to="/">
+        <Link to="/main">
           <li>
             <img
-              src={path === "/" ? mainActive : mainUnactive}
+              src={path.startsWith("/main") ? mainActive : mainUnactive}
               alt="main-nav-icon
           "
             />
-            <strong style={{ color: path === "/" ? "#1b1b1b" : "#8B8B8B" }}>
+            <strong
+              style={{
+                color: path.startsWith("/main") ? "#1b1b1b" : "#8B8B8B",
+              }}
+            >
               홈
             </strong>
           </li>
