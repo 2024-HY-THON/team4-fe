@@ -31,10 +31,10 @@ export const SignupPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await registerUser(inputValue);
-    console.log(inputValue);
+    console.log(response);
 
     // 회원가입 변경 실패 예외처리
-    if (!response) {
+    if (!response || response.data.code === 400) {
       setShowFailedAlert(true);
       const timer = setTimeout(() => {
         setShowFailedAlert(false);
@@ -42,7 +42,9 @@ export const SignupPage = () => {
       return () => clearTimeout(timer);
     }
 
+    const accessToken = response.data.result.accessToken;
     // 회원가입 변경 성공
+    localStorage.setItem("accessToken", accessToken);
     setShowFailedAlert(false);
     navigate("/");
   };
