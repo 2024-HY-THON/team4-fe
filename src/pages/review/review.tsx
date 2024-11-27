@@ -4,16 +4,14 @@ import styled from "styled-components";
 export const ReviewPage = () => {
   const [dayDefinition, setDayDefinition] = useState("");
   const [emotionInfo, setEmotionInfo] = useState<string>(""); // textarea 상태 관리
-  const [satisfaction, setSatisfaction] = useState<"만족" | "불만족" | null>(
-    null
-  ); // 만족 상태 관리
+  const [selected, setSelected] = useState("");
+
+  const handleClick = (customType: string) => {
+    setSelected(customType);
+  }; // 만족 상태 관리
 
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmotionInfo(e.target.value); // 입력값 업데이트
-  };
-
-  const handleSatisfactionClick = (type: "만족" | "불만족") => {
-    setSatisfaction(type); // 클릭된 버튼의 상태로 업데이트
   };
 
   return (
@@ -28,14 +26,24 @@ export const ReviewPage = () => {
           />
           <ButtonGroup>
             <SatisfactionButton
-              active={satisfaction === "만족"}
-              onClick={() => handleSatisfactionClick("만족")}
+              customType="satisfied"
+              onClick={() => handleClick("satisfied")}
+              style={
+                selected === "satisfied"
+                  ? { backgroundColor: "#7ED957", color: "white" }
+                  : {}
+              }
             >
               만족
             </SatisfactionButton>
             <SatisfactionButton
-              active={satisfaction === "불만족"}
-              onClick={() => handleSatisfactionClick("불만족")}
+              customType="unsatisfied"
+              onClick={() => handleClick("unsatisfied")}
+              style={
+                selected === "unsatisfied"
+                  ? { backgroundColor: "#F68B2C", color: "white" }
+                  : {}
+              }
             >
               불만족
             </SatisfactionButton>
@@ -76,8 +84,9 @@ const Section = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 20px; /* 글씨 크기 증가 */
+
+  margin-bottom: 20px;
 `;
 
 const InputContainer = styled.div`
@@ -95,25 +104,26 @@ const Input = styled.input`
 
 const ButtonGroup = styled.div`
   display: flex;
+  justify-content: center; /* 버튼 중앙 배치 */
 `;
 
-const SatisfactionButton = styled.button<{ active: boolean }>`
-  flex: 1;
-  padding: 10px;
+const SatisfactionButton = styled.button<{ customType: string }>`
+  width: 160px; /* 버튼 너비 확대 */
+  height: 50px; /* 버튼 높이 설정 */
+  border: 2px solid;
+  border-color: ${(props) =>
+    props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+  color: ${(props) =>
+    props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+  background-color: white;
+  padding: 10px 20px;
   font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  background-color: ${(props) =>
-    props.active
-      ? props.children === "만족"
-        ? "#4caf50"
-        : "#f44336"
-      : "#ddd"};
   cursor: pointer;
 
   &:hover {
-    opacity: 0.9;
+    background-color: ${(props) =>
+      props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+    color: white;
   }
   &:first-child {
     border-radius: 20px 0 0 20px; /* 왼쪽 버튼 */
@@ -139,6 +149,7 @@ const Date = styled.div`
 const TextArea = styled.textarea`
   width: 100%;
   padding: 10px;
+  height: 220px;
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
