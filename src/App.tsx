@@ -7,6 +7,7 @@ import { MainPage } from "@pages/main/main";
 import { ProfilePage } from "@pages/profile/profile";
 import { RecordsPage } from "@pages/records/records";
 import { SignupPage } from "@pages/signup/signup";
+import { ReviewPage } from "@pages/review/review";
 import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -65,6 +66,7 @@ function App() {
 
               {/* profile page */}
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/review" element={<ReviewPage />} />
             </Routes>
             {isTabBarVisible && <TabNavigator />}
           </>
