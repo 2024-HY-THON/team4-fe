@@ -7,10 +7,17 @@ import { MainPage } from "@pages/main/main";
 import { ProfilePage } from "@pages/profile/profile";
 import { RecordsPage } from "@pages/records/records";
 import { SignupPage } from "@pages/signup/signup";
+import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useShallow } from "zustand/shallow";
 
 function App() {
+  const { isTabBarVisible } = useTabBarStore(
+    useShallow((state) => ({
+      isTabBarVisible: state.isTabBarVisible,
+    }))
+  );
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
 
   useEffect(() => {
@@ -56,7 +63,7 @@ function App() {
               {/* profile page */}
               <Route path="/profile" element={<ProfilePage />} />
             </Routes>
-            <TabNavigator />
+            {isTabBarVisible && <TabNavigator />}
           </>
         )}
       </Layout>
