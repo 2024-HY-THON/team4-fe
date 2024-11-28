@@ -1,10 +1,10 @@
-import { axiosInstance } from "@apis/axiosInstance";
-import { useEffect, useState } from "react";
+// import { axiosInstance } from "@apis/axiosInstance";
+// import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const MainPage = () => {
-  const [timeList, setTimeList] = useState();
+  // const [timeList, setTimeList] = useState();
   const navigate = useNavigate();
   const testTimeList = [
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
