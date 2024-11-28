@@ -1,3 +1,4 @@
+import { axiosInstance } from "@apis/axiosInstance";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -13,45 +14,71 @@ export const ReviewPage = () => {
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmotionInfo(e.target.value); // 입력값 업데이트
   };
+  const handleSubmit = async () => {
+    // restId를 적절히 설정해주세요.
+    const restId = 1; // 예시: ID를 실제 데이터에 맞게 변경
+    const satisfaction = selected === "satisfied";
+
+    const requestBody = {
+      todayDefinition: dayDefinition,
+      satisfaction: satisfaction,
+      todayEmotion: emotionInfo,
+    };
+
+    try {
+      const response = await axiosInstance.post(
+        `/sum/today-rest/${restId}`,
+        requestBody
+      );
+      console.log("성공적으로 전송됨:", response.data);
+    } catch (error) {
+      console.error("전송 중 오류 발생:", error);
+    }
+  };
 
   return (
     <Container>
       <Section>
-        <Title>하루의 정의</Title>
+        <Title>
+          <span style={{ color: "#0487D9" }}>하루</span>의 정의
+        </Title>
         <InputContainer>
+          <h3>당신의 하루에 이름을 지어주세요 </h3>
           <Input
-            placeholder="당신의 하루에 이름을 지어주세요 ex. 기쁨, 설렘, 여유"
+            placeholder="ex. 기쁨, 설렘, 여유"
             value={dayDefinition}
             onChange={(e) => setDayDefinition(e.target.value)}
           />
-          <ButtonGroup>
-            <SatisfactionButton
-              customType="satisfied"
-              onClick={() => handleClick("satisfied")}
-              style={
-                selected === "satisfied"
-                  ? { backgroundColor: "#7ED957", color: "white" }
-                  : {}
-              }
-            >
-              만족
-            </SatisfactionButton>
-            <SatisfactionButton
-              customType="unsatisfied"
-              onClick={() => handleClick("unsatisfied")}
-              style={
-                selected === "unsatisfied"
-                  ? { backgroundColor: "#F68B2C", color: "white" }
-                  : {}
-              }
-            >
-              불만족
-            </SatisfactionButton>
-          </ButtonGroup>
         </InputContainer>
+        <ButtonGroup>
+          <SatisfactionButton
+            customType="satisfied"
+            onClick={() => handleClick("satisfied")}
+            style={
+              selected === "satisfied"
+                ? { backgroundColor: "#7ED957", color: "white" }
+                : {}
+            }
+          >
+            만족
+          </SatisfactionButton>
+          <SatisfactionButton
+            customType="unsatisfied"
+            onClick={() => handleClick("unsatisfied")}
+            style={
+              selected === "unsatisfied"
+                ? { backgroundColor: "#F68B2C", color: "white" }
+                : {}
+            }
+          >
+            불만족
+          </SatisfactionButton>
+        </ButtonGroup>
       </Section>
       <Section>
-        <Title>오늘의 감정</Title>
+        <Title>
+          <span style={{ color: "#0487D9" }}>오늘</span>의 감정
+        </Title>
         <EmotionContainer>
           <Date>11월 17일 (일)</Date>
           <TextArea
@@ -60,7 +87,7 @@ export const ReviewPage = () => {
             onChange={handleTextareaChange} // 상태 업데이트 핸들러
           />
         </EmotionContainer>
-        <AddButton>추가하기</AddButton>
+        <AddButton onClick={handleSubmit}>추가하기</AddButton>
       </Section>
     </Container>
   );
@@ -71,9 +98,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 20px 25px; /* 양쪽 여백 축소 */
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  background-color: #ffffff; /* 배경색을 흰색으로 변경 */
   height: 100vh;
 `;
 
@@ -83,23 +110,27 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const Title = styled.h2`
-  font-size: 20px; /* 글씨 크기 증가 */
-
-  margin-bottom: 20px;
+const Title = styled.h1`
+  font-size: 30px;
+  margin-bottom: 16px;
+  font-weight: bold;
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border: 0.3px solid #0378a6;
+  padding: 8px;
+  align-items: right;
+  border-radius: 10px;
+  margin-bottom: 50px;
 `;
 
 const Input = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px; /* 폰트 크기 줄이기 */
+  border: 1px solid;
 `;
 
 const ButtonGroup = styled.div`
@@ -108,7 +139,7 @@ const ButtonGroup = styled.div`
 `;
 
 const SatisfactionButton = styled.button<{ customType: string }>`
-  width: 160px; /* 버튼 너비 확대 */
+  width: 320px; /* 버튼 너비 확대 */
   height: 50px; /* 버튼 높이 설정 */
   border: 2px solid;
   border-color: ${(props) =>
@@ -119,18 +150,18 @@ const SatisfactionButton = styled.button<{ customType: string }>`
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
-
+  margin-bottom: 30px;
   &:hover {
     background-color: ${(props) =>
       props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
     color: white;
   }
   &:first-child {
-    border-radius: 20px 0 0 20px; /* 왼쪽 버튼 */
+    border-radius: 30px 0 0 30px; /* 왼쪽 버튼 */
   }
 
   &:last-child {
-    border-radius: 0 20px 20px 0; /* 오른쪽 버튼 */
+    border-radius: 0 30px 30px 0; /* 오른쪽 버튼 */
   }
 `;
 
@@ -139,11 +170,15 @@ const EmotionContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
+  border: 1px solid #8b8b8b;
+  padding: 8px;
+  border-radius: 10px;
 `;
 
 const Date = styled.div`
-  font-size: 14px;
+  font-size: 25px;
   color: #555;
+  padding-left: 20px;
 `;
 
 const TextArea = styled.textarea`
