@@ -1,33 +1,129 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import moment from "moment";
-import { Value } from "@type/calendar";
+import { EventType, Value } from "@type/calendar";
 import prevArrow from "@assets/common/prev-arrow.svg";
 import nextArrow from "@assets/common/next-arrow.svg";
+import { useCalendarStore } from "@store/calendarStore";
+import { DailyLog } from "./DailyLog";
+import { getCalendarEventList } from "@apis/calendar";
 
 const EventCalendar = () => {
+  const eventList = useCalendarStore((state) => state.eventList);
+  const setEventList = useCalendarStore((state) => state.setEventList);
   const [selectedDate, setSelectedDate] = useState<Value>(null);
+  const [searchMonth, setSearchMonth] = useState<number>(
+    new Date().getMonth() + 1
+  );
+  const filterRef = useRef<HTMLDivElement>(null);
 
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
     setSelectedDate(newDate);
+    console.log(selectedDate);
   };
+
+  // 월 업데이트
+  const updateMonth = (activeStartDate: Date | null) => {
+    if (activeStartDate) {
+      const newMonth = activeStartDate.getMonth() + 1;
+      setSearchMonth(newMonth);
+    }
+  };
+
+  const fetchCalendarEvents = async () => {
+    const response = await getCalendarEventList(searchMonth);
+    if (response) {
+      console.log(response.data.result.reposeCalendarDetailDTOs);
+      setEventList(response.data.result.reposeCalendarDetailDTOs);
+    }
+  };
+
+  // 일정 변동사항 업데이트
+  useEffect(() => {
+    fetchCalendarEvents();
+  }, [searchMonth]);
+
+  const handleTileContent = useCallback(
+    ({ date }: { date: Date }) => {
+      // 클릭한 날짜 중 이벤트가 있는 날짜 필터링
+      const filteredEventList = eventList.filter(
+        (event: EventType) => event.date === moment(date).format("YYYY-MM-DD")
+      );
+
+      const isSelected =
+        selectedDate instanceof Date &&
+        selectedDate.getFullYear() === date.getFullYear() &&
+        selectedDate.getMonth() === date.getMonth() &&
+        selectedDate.getDate() === date.getDate();
+
+      const isToday =
+        new Date().getFullYear() === date.getFullYear() &&
+        new Date().getMonth() === date.getMonth() &&
+        new Date().getDate() === date.getDate();
+
+      return (
+        <>
+          {isSelected && filteredEventList.length > 0 && (
+            <DailyLog
+              filterRef={filterRef}
+              date={date}
+              eventList={filteredEventList}
+            />
+          )}
+          {filteredEventList.length > 0 && (
+            <Dot isSelected={isSelected && !isToday} />
+          )}
+        </>
+      );
+    },
+    [selectedDate, eventList]
+  );
+
+  //  모달 밖을 누르면 닫히도록
+  useEffect(() => {
+    // 아래의 이벤트 리스너에서 'mousedown'이벤트를 명시적으로 사용했으므로
+    // 여기서의 event는 MouseEvent라는 보장이 생기는 것 -> 이 이벤트 객체에는 마우스 관련 속성들이 포함되어 있음
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        // 필터 메뉴 DOM이 화면에 렌더링 되어 있고
+        filterRef.current &&
+        // 현재 클릭된 위치가 필터 메뉴 외부일 때
+        !filterRef.current.contains(event.target as Node)
+      ) {
+        setSelectedDate(null);
+      }
+    };
+
+    // mousedown(마우스 버튼이 눌린 순간) 이벤트가 발생할 때마다 함수
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [filterRef]);
 
   return (
     <StyledCalendarContainer>
       <StyledCalendar
-        locale="en-US"
+        locale="ko-KR"
         calendarType="gregory" // 일요일 부터 시작
         onChange={handleDateChange}
         // MM일 제거 -> 숫자만 보이게
         formatDay={(_locale: string | undefined, date: Date) =>
           moment(date).format("D")
         }
-        // 네비게이션에서 2023. 12 이렇게 보이도록 설정
+        // 네비게이션에서 2024. 11222 이렇게 보이도록 설정
         formatMonthYear={(_locale: string | undefined, date: Date) =>
           moment(date).format("YYYY. MM")
+        }
+        // 일정 있는 날짜에 점 UI 추가 및 팝업 마운트
+        tileContent={handleTileContent}
+        // 달 넘어갈 때 자동 선택된 값(1일)으로 캘린더 height 변화
+        onActiveStartDateChange={({ activeStartDate }) =>
+          updateMonth(activeStartDate)
         }
         showNeighboringMonth={true} // 전달, 다음달 날짜 숨기기
         next2Label={null} // 년도 이동 버튼 숨기기
@@ -135,15 +231,15 @@ const StyledCalendarContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      max-width: 35px;
-      height: 35px;
+      max-width: 37px;
+      height: 37px;
       padding: 0;
     }
 
     /* 날짜 */
     .react-calendar__month-view__days {
       justify-content: center;
-      row-gap: 20px;
+      row-gap: 30px;
       column-gap: 15px;
     }
 
@@ -184,10 +280,10 @@ const StyledCalendarContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 35px;
-      height: 35px;
+      width: 37px;
+      height: 37px;
       border-radius: 50%;
-      background-color: rgba(221, 235, 255, 1);
+      background-color: rgba(128, 221, 242, 0.4);
     }
 
     /* 선택된 날짜 */
@@ -198,10 +294,10 @@ const StyledCalendarContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 35px;
-      height: 35px;
+      width: 37px;
+      height: 37px;
       border-radius: 50%;
-      background-color: #0487d9;
+      background-color: #049dbf;
     }
 
     /* 이전/다음 달 날짜 */
@@ -212,3 +308,14 @@ const StyledCalendarContainer = styled.div`
 `;
 
 const StyledCalendar = styled(Calendar)``;
+
+const Dot = styled.div<{ isSelected: boolean }>`
+  position: absolute;
+  bottom: 1%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: ${(props) => (props.isSelected ? "white" : "#049dbf")};
+`;
