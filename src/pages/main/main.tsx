@@ -1,9 +1,11 @@
 import { axiosInstance } from "@apis/axiosInstance";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const MainPage = () => {
   const [timeList, setTimeList] = useState();
+  const navigate = useNavigate();
   const testTimeList = [
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
@@ -36,6 +38,9 @@ export const MainPage = () => {
             <TimeText>
               {item.time} ({item.duration})
             </TimeText>
+            <button onClick={() => navigate(`/alarmEdit/${index}`)}>
+              편집
+            </button>
             <Label>{item.label}</Label>
           </TimeRow>
         ))}
@@ -45,7 +50,7 @@ export const MainPage = () => {
       <Banner>창가에서 보이는 하늘을 바라보는 게 어때요?</Banner>
 
       {/* 추가하기 버튼 */}
-      <AddButton>추가하기</AddButton>
+      <AddButton onClick={() => navigate("/alarmAdd")}>추가하기</AddButton>
     </Container>
   );
 };
