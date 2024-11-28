@@ -3,7 +3,14 @@ import './profile.css'; // CSS 파일을 import
 import settingIcon from '@assets/profile/setting.svg';
 import recipe from '@assets/profile/recipe.svg';
 
+import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
+
 export const ProfilePage = () => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  const goToSettings = () => {
+    navigate('/setting'); // /setting 경로로 이동
+  };
   const [userInfo] = useState({
     name: '남윤서',
     profileImage: '', // 유저 이미지
@@ -16,7 +23,7 @@ export const ProfilePage = () => {
       <header className="header">
         <h2>프로필</h2>
         <span className="settings-icon">
-          <img src={settingIcon} alt="Settings Icon" />
+          <img src={settingIcon} alt="Settings Icon" onClick={goToSettings} />
         </span>
       </header>
 

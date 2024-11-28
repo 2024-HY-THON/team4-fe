@@ -7,12 +7,23 @@ import help from '@assets/profile/help.svg';
 import policy from '@assets/profile/policy.svg';
 import inquiry from '@assets/profile/inquiry.svg';
 import logout from '@assets/profile/logout.svg';
+import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 
 export const SettingPage = () => {
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  const goToProfile = () => {
+    navigate('/profile'); // /profile 경로로 이동
+  };
   return (
     <div className="container">
       <div className="header">
-        <img src={backpage} alt="Back to Profile" className="backpage-icon" />
+        <img
+          src={backpage}
+          alt="Back to Profile"
+          className="backpage-icon"
+          onClick={goToProfile}
+        />
         <h1 className="title">Settings</h1>
       </div>
 
