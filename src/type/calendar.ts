@@ -8,3 +8,14 @@ export interface EventType {
   todayEmotion: string;
   date: string;
 }
+
+export interface EventDetailType {
+  date: string;
+  done: boolean;
+  recipeDefinition: string;
+  recipeSatisfaction: number;
+  reposeId: number;
+  reposeTotalMinutes: number;
+  todayDefinition: string;
+  todayEmotion: string;
+}

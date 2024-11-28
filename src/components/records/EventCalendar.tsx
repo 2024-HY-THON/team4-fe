@@ -67,11 +67,7 @@ const EventCalendar = () => {
       return (
         <>
           {isSelected && filteredEventList.length > 0 && (
-            <DailyLog
-              filterRef={filterRef}
-              date={date}
-              eventList={filteredEventList}
-            />
+            <DailyLog filterRef={filterRef} eventList={filteredEventList} />
           )}
           {filteredEventList.length > 0 && (
             <Dot isSelected={isSelected && !isToday} />
