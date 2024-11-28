@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./profile.css"; // CSS 파일을 import
 import settingIcon from "@assets/profile/setting.svg"; // 설정 아이콘
 import { useNavigate } from "react-router-dom"; // useNavigate 임포트
