@@ -1,7 +1,10 @@
+import { axiosInstance } from "@apis/axiosInstance";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export const MainPage = () => {
-  const timeList = [
+  const [timeList, setTimeList] = useState();
+  const testTimeList = [
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
@@ -10,11 +13,25 @@ export const MainPage = () => {
     { time: "11 : 20", duration: "5분", label: "낮잠자기" },
   ];
 
+  // useEffect(() => {
+  //   const fetchTimeList = async () => {
+  //     try {
+  //       const response = await axiosInstance.get(`/sum/get-my-rest`);
+  //       console.log("성공적으로 알람 리스트 가져옴:", response.data);
+  //       setTimeList(response.data);
+  //     } catch (error) {
+  //       console.error("알람 리스트 가져오는 중 에러발생:", error);
+  //     }
+  //   };
+
+  //   fetchTimeList();
+  // }, []);
+
   return (
     <Container>
       {/* 시간 리스트 */}
       <TimeList>
-        {timeList.map((item, index) => (
+        {testTimeList.map((item, index) => (
           <TimeRow key={index}>
             <TimeText>
               {item.time} ({item.duration})
