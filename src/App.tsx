@@ -17,6 +17,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
 import { registerServiceWorker } from "@utils/registerServiceWorker";
+import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -76,6 +77,9 @@ function App() {
 
               {/* profile page */}
               <Route path="/profile" element={<ProfilePage />} />
+
+              {/* setting page */}
+              <Route path="/setting" element={<SettingPage />} />
 
               {/* review page */}
               <Route path="/review" element={<ReviewPage />} />
