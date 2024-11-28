@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import './profile.css'; // CSS 파일을 import
-import settingIcon from '@assets/profile/setting.svg'; // 설정 아이콘
-import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
+import React, { useState, useEffect } from "react";
+import "./profile.css"; // CSS 파일을 import
+import settingIcon from "@assets/profile/setting.svg"; // 설정 아이콘
+import { useNavigate } from "react-router-dom"; // useNavigate 임포트
 
 export const ProfilePage = () => {
   const navigate = useNavigate(); // useNavigate 훅 사용
 
   const goToSettings = () => {
-    navigate('/setting'); // /setting 경로로 이동
+    navigate("/setting"); // /setting 경로로 이동
   };
 
   const [userInfo, setUserInfo] = useState({
-    name: '',
-    profileImage: '',
+    name: "",
+    profileImage: "",
   });
 
   // 레시피 데이터를 저장할 state
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
     const fetchData = async () => {
       try {
         // 사용자 정보 API 요청
-        const userResponse = await fetch('url');
+        const userResponse = await fetch("url");
         const userData = await userResponse.json();
         setUserInfo({
           name: userData.name, // API에서 유저 이름 받아오기
@@ -31,11 +31,11 @@ export const ProfilePage = () => {
         });
 
         // 레시피 정보 API 요청
-        const recipeResponse = await fetch('url');
+        const recipeResponse = await fetch("url");
         const recipeData = await recipeResponse.json();
         setRecipes(recipeData); // 레시피 데이터 상태에 저장
       } catch (error) {
-        console.error('데이터 요청 실패:', error);
+        console.error("데이터 요청 실패:", error);
       }
     };
 
