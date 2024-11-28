@@ -1,0 +1,85 @@
+/* 전체 컨테이너 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+/* 헤더 영역 */
+.header {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* 헤더의 최대 너비 */
+  height: 50px; /* 헤더 높이 설정 */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 제목을 중앙에 정렬 */
+  margin-bottom: 20px;
+}
+
+/* 백페이지 아이콘 */
+.backpage-icon {
+  position: absolute;
+  margin-right: 300px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+}
+
+/* 페이지 제목 */
+.title {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+/* 각 섹션 */
+.section {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 30px;
+}
+
+/* 섹션 제목 */
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* 회색 박스 */
+.box {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 항목 스타일 */
+.item {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.2s ease;
+  padding-left: 10px;
+}
+.item img {
+  width: 24px; /* 아이콘 크기 */
+  height: 24px;
+  margin-right: 15px; /* 이미지와 텍스트 사이의 간격 */
+}
+.item:hover {
+  color: #007bff; /* 항목 호버 시 색상 변경 */
+}
+.item .text {
+  font-size: 16px;
+  font-weight: 900;
+  margin-left: 20px;
+}

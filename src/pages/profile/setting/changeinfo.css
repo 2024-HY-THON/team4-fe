@@ -1,0 +1,42 @@
+/* 헤더 영역 */
+.header {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* 헤더의 최대 너비 */
+  height: 50px; /* 헤더 높이 설정 */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 제목을 중앙에 정렬 */
+  margin-bottom: 20px;
+}
+
+/* 백페이지 아이콘 */
+.backpage-icon {
+  position: absolute;
+  margin-right: 300px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer; /* 클릭 가능하도록 커서 변경 */
+}
+
+/* 페이지 제목 */
+.title {
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  font-size: 28px;
+}
+
+.userimage {
+  width: 170px;
+  height: 170px;
+  background-color: #d9d9d9;
+  border: 1px solid black;
+  border-radius: 100%;
+  margin-bottom: 20px;
+}
+
+.infobox input {
+  background-color: white;
+  border: none;
+}
