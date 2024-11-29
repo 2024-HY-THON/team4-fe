@@ -3,11 +3,11 @@
   font-family: Arial, sans-serif;
 }
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 10px;
   font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
 }
 
 .settings-icon img {

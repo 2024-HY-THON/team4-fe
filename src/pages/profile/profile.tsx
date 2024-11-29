@@ -42,6 +42,21 @@ export const ProfilePage = () => {
     fetchData(); // API 호출
   }, []); // 빈 배열은 컴포넌트가 처음 렌더링될 때만 실행됨
 
+  // 사진 업로드 처리
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserInfo((prev) => ({
+          ...prev,
+          profileImage: reader.result as string, // 미리보기 URL로 업데이트
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="profile-page">
       <header className="header">
@@ -51,15 +66,20 @@ export const ProfilePage = () => {
         </span>
       </header>
 
-      {/* 사용자 이미지와 이름 구간 */}
       <div className="profile-info">
-        <div className="profile-picture">
-          {/* 유저 이미지 */}
-          <div
-            className="userimage"
-            style={{ backgroundImage: `url(${userInfo.profileImage})` }}
-          ></div>
-        </div>
+        <div
+          className="userimage"
+          style={{ backgroundImage: `url(${userInfo.profileImage || ''})` }}
+          onClick={() => document.getElementById('imageUpload')?.click()} // 클릭 시 파일 선택 열기
+        ></div>
+        <input
+          type="file"
+          id="imageUpload"
+          accept="image/*"
+          style={{ display: 'none' }} // 숨김 처리
+          onChange={handleImageUpload}
+        />
+
         <p className="userName">{userInfo.name}</p>
       </div>
 
