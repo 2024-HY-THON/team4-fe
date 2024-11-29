@@ -24,6 +24,8 @@ export const AlarmAddPage = () => {
         restLabel="휴식 시간(분)"
         restPlaceholder="5"
       />
+      {/* 추가하기 버튼 */}
+      <AddButton onClick={() => navigate("/alarmAdd")}>추가하기</AddButton>
     </Container>
   );
 };
@@ -55,4 +57,19 @@ const BackButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+`;
+const AddButton = styled.button`
+  width: 90%;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;
