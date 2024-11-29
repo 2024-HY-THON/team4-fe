@@ -16,7 +16,6 @@ export const registerServiceWorker = async () => {
   }
 };
 
-// TODO 토큰 발행 안되거나, 서로 다른 두개의 토큰 발행될때 있음
 export async function sendKeyToServer(recursiveCount: number) {
   try {
     if (!registration) {
