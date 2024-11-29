@@ -37,7 +37,7 @@ export async function sendKeyToServer(recursiveCount: number) {
   } catch {
     console.error("No registration token available.");
     if (recursiveCount < retryCount) {
-      sendKeyToServer(0);
+      sendKeyToServer(recursiveCount + 1);
     }
   }
 }
