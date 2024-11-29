@@ -18,7 +18,6 @@ import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
 
 import ActionPage from "@pages/action/ActionPage";
-import { sendKeyToServer } from "@utils/registerServiceWorker";
 import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
@@ -30,7 +29,7 @@ function App() {
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkFirstVisit = async () => {
+    const checkFirstVisit = () => {
       const isFirstVisit = !sessionStorage.getItem("visited");
 
       if (isFirstVisit) {
@@ -40,7 +39,6 @@ function App() {
         }, 2000);
       } else {
         setIsSplashVisible(false);
-        await sendKeyToServer(0);
       }
     };
 
