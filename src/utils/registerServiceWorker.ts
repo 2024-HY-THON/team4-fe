@@ -17,10 +17,7 @@ export const registerServiceWorker = async () => {
 };
 
 // TODO 토큰 발행 안되거나, 서로 다른 두개의 토큰 발행될때 있음
-export async function sendKeyToServer(
-  recursiveCount: number,
-  memberId: string
-) {
+export async function sendKeyToServer(recursiveCount: number) {
   try {
     if (!registration) return;
     const vapidKey = import.meta.env.VITE_VAPID_KEY;
@@ -32,7 +29,7 @@ export async function sendKeyToServer(
     if (token) {
       console.log("FCM Token:", token);
 
-      const response = await fcmTokenRegister(memberId, { fcmToken: token });
+      const response = await fcmTokenRegister({ fcmToken: token });
       console.log(response);
     } else {
       throw new Error("token invalid");
@@ -40,7 +37,7 @@ export async function sendKeyToServer(
   } catch {
     console.error("No registration token available.");
     if (recursiveCount < retryCount) {
-      sendKeyToServer(0, memberId);
+      sendKeyToServer(0);
     }
   }
 }
