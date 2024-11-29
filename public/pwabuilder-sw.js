@@ -34,12 +34,14 @@ messaging.onBackgroundMessage((payload) => {
   console.log(payload);
 
   // TODO title || body null undefined 0 이면 안됨 노티 줘야함
-  if (!payload.title || !payload.body) {
+  // NOTE FCM 백그라운드 undefined 메시지 추가로 오는 버그 방지 위한 코드
+  if (!payload.title || !payload.content) {
     return;
   }
+
   const notificationTitle = payload.title;
   const notificationOptions = {
-    body: payload.body,
+    body: payload.content,
     icon: payload.icon,
   };
 
