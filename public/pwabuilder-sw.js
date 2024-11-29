@@ -52,30 +52,30 @@ messaging.onBackgroundMessage((payload) => {
 // // push 알림이 왔을시
 // // TODO mac 크롬 사용시 알림을 열어야 확인 가능
 // // TODO event.data.json()으로 추후 수정 예정
-self.addEventListener("push", function (e) {
-  console.log("push: ", e.data.json());
-  if (!e.data.json()) return;
+// self.addEventListener("push", function (e) {
+//   console.log("push: ", e.data.json());
+//   if (!e.data.json()) return;
 
-  const resultData = e.data.json().notification;
-  const notificationTitle = resultData.title;
-  const notificationOptions = {
-    body: resultData.content ? resultData.content : resultData.body,
-  };
-  console.log("push: ", { resultData, notificationTitle, notificationOptions });
+//   const resultData = e.data.json().notification;
+//   const notificationTitle = resultData.title;
+//   const notificationOptions = {
+//     body: resultData.content ? resultData.content : resultData.body,
+//   };
+//   console.log("push: ", { resultData, notificationTitle, notificationOptions });
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
-  // console.log("push");
-  // console.log(payload);
-  // // const data = event.data.json(); // Assuming the server sends JSON
+//   self.registration.showNotification(notificationTitle, notificationOptions);
+//   // console.log("push");
+//   // console.log(payload);
+//   // // const data = event.data.json(); // Assuming the server sends JSON
 
-  // const notificationTitle = payload.title;
-  // const notificationOptions = {
-  //   body: payload.content,
-  //   icon: payload.icon,
-  // };
+//   // const notificationTitle = payload.title;
+//   // const notificationOptions = {
+//   //   body: payload.content,
+//   //   icon: payload.icon,
+//   // };
 
-  // self.registration.showNotification(notificationTitle, notificationOptions);
-});
+//   // self.registration.showNotification(notificationTitle, notificationOptions);
+// });
 
 // push 알림을 클릭했을시
 
