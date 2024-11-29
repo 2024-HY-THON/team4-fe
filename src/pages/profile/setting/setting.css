@@ -16,12 +16,10 @@
   height: 50px; /* 헤더 높이 설정 */
   display: flex;
   align-items: center;
+  justify-content: center; /* 제목을 중앙에 정렬 */
   margin-bottom: 20px;
 }
-.header h1 {
-  position: absolute;
-  margin-left: 118px;
-}
+
 /* 백페이지 아이콘 */
 .backpage-icon {
   position: absolute;

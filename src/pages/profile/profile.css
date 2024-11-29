@@ -8,17 +8,22 @@
   display: flex;
   justify-content: space-between;
   text-align: center;
+  margin-top: 10px;
 }
-
+.header h2 {
+  position: absolute;
+  left: 0%;
+  margin-left: 10px;
+}
 .settings-icon img {
   width: 24px;
   height: 24px;
   cursor: pointer;
+  margin-left: 300px;
 }
 .profile-info {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
   align-items: center; /* 이미지가 없다면 기본적으로 내용이 중앙 정렬되도록 */
   flex-direction: column;
 }
