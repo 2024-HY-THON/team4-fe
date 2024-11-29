@@ -8,8 +8,7 @@ import { getMessaging } from "firebase/messaging";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDSqU0TbdqtY8Ji67b4MeZleWcep9NAm8c",
-  authDomain:
-    "[hy-thon-team-4.firebaseapp.com](http://hy-thon-team-4.firebaseapp.com/)",
+  authDomain: "http://hy-thon-team-4.firebaseapp.com",
   projectId: "hy-thon-team-4",
   storageBucket: "hy-thon-team-4.firebasestorage.app",
   messagingSenderId: "463766640178",
@@ -23,14 +22,8 @@ export const firebaseApp = initializeApp(firebaseConfig);
 export const messaging = getMessaging(firebaseApp);
 
 async function requestPermission() {
-  console.log("권한 요청 중...");
-
   const permission = await Notification.requestPermission();
-  if (permission === "denied") {
-    console.log("알림 권한 허용 안됨");
-    return;
-  }
-  console.log("알림 권한이 허용됨");
+  console.log(permission);
 }
 
 requestPermission();

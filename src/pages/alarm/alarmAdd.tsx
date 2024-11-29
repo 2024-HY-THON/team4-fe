@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { AlarmFormat } from "./alarmFormat";
 import backButtonIcon from "@assets/alarmEdit/backbutton.svg";
