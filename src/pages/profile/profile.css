@@ -2,42 +2,55 @@
   padding: 20px;
   font-family: Arial, sans-serif;
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
+  font-weight: 900;
 }
 
+.settings-icon img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 .profile-info {
   margin-top: 20px;
   display: flex;
-  align-items: center;
+  justify-content: center;
+  align-items: center; /* 이미지가 없다면 기본적으로 내용이 중앙 정렬되도록 */
+  flex-direction: column;
 }
 
-.profile-picture img {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 20px;
+.userimage {
+  width: 170px;
+  height: 170px;
+  background-color: #d9d9d9;
+  border: 1px solid black;
+  border-radius: 100%;
+  margin-bottom: 20px;
 }
-
+.userName {
+  font-weight: 900;
+  font-size: 25px;
+}
 .recipebox {
   margin-top: 20px;
-  border: none;
+  border: 1px solid #8a8a8e;
   box-shadow: #8a8a8e 5px 5px 3px 3px;
   padding: 30px;
 }
-
+.highlight {
+  color: #0487d9; /* 원하는 색상으로 설정 */
+}
 .recipebox ul {
   list-style-type: none;
-  padding: 0;
+  padding: 0px 15px 0px 15px;
 }
 
 .recipebox li {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin: 10px 0;
   color: #8a8a8e;
@@ -64,4 +77,8 @@
 
 .add-recipe:hover {
   background-color: #0367a6;
+}
+
+.add-recipe:hover::after {
+  background-color: #0487d9;
 }

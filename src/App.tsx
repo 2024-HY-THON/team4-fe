@@ -9,12 +9,15 @@ import { ProfilePage } from "@pages/profile/profile";
 import { RecordsPage } from "@pages/records/records";
 import { SignupPage } from "@pages/signup/signup";
 import { ReviewPage } from "@pages/review/review";
+import { AlarmAddPage } from "@pages/alarm/alarmAdd";
+import { AlarmEditPage } from "@pages/alarm/alarmEdit";
 import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
 import { registerServiceWorker } from "@utils/registerServiceWorker";
+import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -74,7 +77,18 @@ function App() {
 
               {/* profile page */}
               <Route path="/profile" element={<ProfilePage />} />
+
+              {/* setting page */}
+              <Route path="/setting" element={<SettingPage />} />
+
+              {/* review page */}
               <Route path="/review" element={<ReviewPage />} />
+
+              {/* alarmAdd page */}
+              <Route path="/alarmAdd" element={<AlarmAddPage />} />
+
+              {/* alarmEditpage */}
+              <Route path="/alarmEdit/:id" element={<AlarmEditPage />} />
             </Routes>
             {isTabBarVisible && <TabNavigator />}
           </>

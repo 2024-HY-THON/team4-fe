@@ -35,5 +35,5 @@
       "@utils/*": ["src/utils/*"]
     }
   },
-  "include": ["src", "public/firebase-messaging-sw.js"]
+  "include": ["src", "public/pwabuilder-sw.js"]
 }

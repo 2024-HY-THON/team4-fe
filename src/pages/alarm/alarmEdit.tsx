@@ -1,20 +1,15 @@
-import styled from "styled-components";
+// import { useParams } from "react-router-dom";
 import { AlarmFormat } from "./alarmFormat";
-import backButtonIcon from "@assets/alarmEdit/backbutton.svg";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+export const AlarmEditPage = () => {
+  // const { id } = useParams();
 
-export const AlarmAddPage = () => {
-  const navigate = useNavigate();
-  const handleBack = () => {
-    navigate(-1); // 이전 페이지로 이동
-  };
   return (
     <Container>
       <Header>
-        <BackButton onClick={handleBack}>
-          <img src={backButtonIcon} alt="뒤로가기" />
-        </BackButton>
+        <CancelButton>취소</CancelButton>
         <Title>숨</Title>
+        <SaveButton>저장</SaveButton>
       </Header>
       <AlarmFormat
         timerTitle="숨 쉴 시간"
@@ -27,20 +22,18 @@ export const AlarmAddPage = () => {
     </Container>
   );
 };
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   height: 100vh;
 `;
 
 const Header = styled.div`
   display: flex;
-  /* background-color: yellow; */
+  justify-content: space-between;
   width: 100%;
-  padding: 10px;
+  padding: 10px 20px;
   font-size: 20px;
   font-weight: 700 !important;
 `;
@@ -51,8 +44,19 @@ const Title = styled.div`
   font-size: 25px;
   font-weight: bold;
 `;
-const BackButton = styled.button`
+
+const SaveButton = styled.button`
+  color: green;
   background: none;
   border: none;
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+const CancelButton = styled.button`
+  color: red;
+  background: none;
+  border: none;
+  font-size: 16px;
   cursor: pointer;
 `;
