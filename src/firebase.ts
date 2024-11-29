@@ -21,8 +21,12 @@ export const firebaseApp = initializeApp(firebaseConfig);
 // Initialize Firebase Cloud Messaging and get a reference to the service
 export const messaging = getMessaging(firebaseApp);
 
-async function requestPermission() {
+export async function requestPermission() {
   const permission = await Notification.requestPermission();
+
+  if (permission === "denied") {
+    alert("푸시 알림을 허용하려면 브라우저 설정에서 알림을 활성화해 주세요.");
+  }
   console.log(permission);
 }
 
