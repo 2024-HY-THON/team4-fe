@@ -1,33 +1,30 @@
 import React from "react";
 import styled from "styled-components";
+import { AlarmFormat } from "./alarmFormat";
+import backButtonIcon from "@assets/alarmEdit/backbutton.svg";
+import { useNavigate } from "react-router-dom";
 
 export const AlarmAddPage = () => {
+  const navigate = useNavigate();
+  const handleBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
   return (
     <Container>
       <Header>
-        <CancelButton>취소</CancelButton>
+        <BackButton onClick={handleBack}>
+          <img src={backButtonIcon} alt="뒤로가기" />
+        </BackButton>
         <Title>숨</Title>
-        <SaveButton>저장</SaveButton>
       </Header>
-      <Body>
-        <Content>
-          <TimerTitle>숨 쉴 시간</TimerTitle>
-          <TimeInputContainer>
-            <TimeInput type="number" placeholder="00" />
-            <TimeSpan>시</TimeSpan>
-            <TimeInput type="number" placeholder="00" />
-            <TimeSpan>분</TimeSpan>
-          </TimeInputContainer>
-        </Content>
-        <Field>
-          <Label>활동 내용</Label>
-          <TextInput type="text" placeholder="하늘보기" />
-        </Field>
-        <Field>
-          <Label>휴식 시간(분)</Label>
-          <TextInput type="number" placeholder="5" />
-        </Field>
-      </Body>
+      <AlarmFormat
+        timerTitle="숨 쉴 시간"
+        timerPlaceholder={{ hour: "00", minute: "00" }}
+        activityLabel="활동 내용"
+        activityPlaceholder="하늘보기"
+        restLabel="휴식 시간(분)"
+        restPlaceholder="5"
+      />
     </Container>
   );
 };
@@ -42,21 +39,11 @@ const Container = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* background-color: yellow; */
   width: 100%;
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 20px;
   font-weight: 700 !important;
-`;
-
-const Body = styled.div`
-  align-items: center;
-  justify-content: center;
-
-  flex: 0.8;
-  display: flex;
-  flex-direction: column;
-  width: 85%;
 `;
 
 const Title = styled.div`
@@ -65,71 +52,8 @@ const Title = styled.div`
   font-size: 25px;
   font-weight: bold;
 `;
-
-const SaveButton = styled.button`
-  color: green;
+const BackButton = styled.button`
   background: none;
   border: none;
-  font-size: 16px;
   cursor: pointer;
-`;
-
-const CancelButton = styled.button`
-  color: red;
-  background: none;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-`;
-
-const Content = styled.div`
-  width: 100%;
-  max-width: 400px;
-  background: #f0f9ff;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-`;
-const TimerTitle = styled.div`
-  font-size: 27px;
-  margin: 0px 0px 20px 10px; // 상 우 하 좌
-`;
-const Label = styled.div`
-  font-size: 18px;
-`;
-
-const TimeInputContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const TimeSpan = styled.span`
-  font-size: 23px;
-`;
-const TimeInput = styled.input`
-  width: 50px;
-  height: 40px;
-  text-align: center;
-  font-size: 23px;
-  border: none;
-  border-bottom: 1px solid;
-  background-color: #f0f9ff;
-`;
-
-const Field = styled.div`
-  display: flex;
-  margin: 15px 0;
-  width: 100%;
-  gap: 10px;
-  border-bottom: 1px solid #e1e4e5;
-`;
-
-const TextInput = styled.input`
-  width: 60%;
-
-  font-size: 16px;
-
-  border: none;
 `;
