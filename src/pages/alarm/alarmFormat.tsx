@@ -1,31 +1,57 @@
 import styled from "styled-components";
 
-export const AlarmFormat = ({
+type AlarmFormatProps = {
+  timerTitle?: string;
+  timerPlaceholder?: { hour: string; minute: string };
+  activityLabel?: string;
+  activityPlaceholder?: string;
+  restLabel?: string;
+  restPlaceholder?: string;
+  onInputChange?: (key: string, value: string) => void; // 추가된 부분
+};
+export const AlarmFormat: React.FC<AlarmFormatProps> = ({
   timerTitle = "숨 쉴 시간",
   timerPlaceholder = { hour: "00", minute: "00" },
   activityLabel = "활동 내용",
   activityPlaceholder = "하늘보기",
   restLabel = "휴식 시간(분)",
   restPlaceholder = "5",
+  onInputChange,
 }) => {
   return (
     <Body>
       <Content>
         <TimerTitle>{timerTitle}</TimerTitle>
         <TimeInputContainer>
-          <TimeInput type="number" placeholder={timerPlaceholder.hour} />
+          <TimeInput
+            type="number"
+            placeholder={timerPlaceholder.hour}
+            onChange={(e) => onInputChange?.("hour", e.target.value)}
+          />
           <TimeSpan>시</TimeSpan>
-          <TimeInput type="number" placeholder={timerPlaceholder.minute} />
+          <TimeInput
+            type="number"
+            placeholder={timerPlaceholder.minute}
+            onChange={(e) => onInputChange?.("minute", e.target.value)}
+          />
           <TimeSpan>분</TimeSpan>
         </TimeInputContainer>
       </Content>
       <Field>
         <Label>{activityLabel}</Label>
-        <TextInput type="text" placeholder={activityPlaceholder} />
+        <TextInput
+          type="text"
+          placeholder={activityPlaceholder}
+          onChange={(e) => onInputChange?.("activity", e.target.value)}
+        />
       </Field>
       <Field>
         <Label>{restLabel}</Label>
-        <TextInput type="number" placeholder={restPlaceholder} />
+        <TextInput
+          type="number"
+          placeholder={restPlaceholder}
+          onChange={(e) => onInputChange?.("rest", e.target.value)}
+        />
       </Field>
     </Body>
   );
