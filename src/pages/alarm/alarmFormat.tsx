@@ -73,6 +73,7 @@ const TimeInput = styled.input`
   border: none;
   border-bottom: 1px solid;
   background-color: #f0f9ff;
+  color: black;
 `;
 
 const Field = styled.div`
@@ -91,4 +92,5 @@ const TextInput = styled.input`
   width: 60%;
   font-size: 16px;
   border: none;
+  background-color: #ffffff;
 `;
