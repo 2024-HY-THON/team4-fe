@@ -15,8 +15,7 @@ import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
-// import { firebaseApp } from "./firebase.ts";
-import { sendKeyToServer } from "@utils/registerServiceWorker";
+import ActionPage from "@pages/action/ActionPage";
 import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
@@ -28,7 +27,7 @@ function App() {
   const [isSplashVisible, setIsSplashVisible] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkFirstVisit = async () => {
+    const checkFirstVisit = () => {
       const isFirstVisit = !sessionStorage.getItem("visited");
 
       if (isFirstVisit) {
@@ -38,7 +37,6 @@ function App() {
         }, 2000);
       } else {
         setIsSplashVisible(false);
-        await sendKeyToServer(0);
       }
     };
 
@@ -55,6 +53,9 @@ function App() {
             <Routes>
               {/* 토큰 없으면 login으로 리다이렉트 */}
               <Route path="/" element={<Navigate to="/login" />} />
+
+              {/* 알림 받은 후 실제 실행 페이지 */}
+              <Route path="/action" element={<ActionPage />} />
 
               {/* main page */}
               <Route path="/main" element={<MainPage />} />

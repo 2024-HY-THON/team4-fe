@@ -31,6 +31,7 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+  console.log("onBackground");
   console.log(payload);
 
   // TODO title || body null undefined 0 이면 안됨 노티 줘야함
@@ -51,19 +52,37 @@ messaging.onBackgroundMessage((payload) => {
 // // push 알림이 왔을시
 // // TODO mac 크롬 사용시 알림을 열어야 확인 가능
 // // TODO event.data.json()으로 추후 수정 예정
-// self.addEventListener("push", function (event) {
-//   console.log(event);
-//   // const data = event.data.json(); // Assuming the server sends JSON
-//   const options = {
-//     body: "tmpBody",
-//   };
-//   event.waitUntil(self.registration.showNotification("tmpTitle", options));
-// });
+self.addEventListener("push", function (e) {
+  console.log("push: ", e.data.json());
+  if (!e.data.json()) return;
+
+  const resultData = e.data.json().notification;
+  const notificationTitle = resultData.title;
+  const notificationOptions = {
+    body: resultData.content ? resultData.content : resultData.body,
+  };
+  console.log("push: ", { resultData, notificationTitle, notificationOptions });
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+  // console.log("push");
+  // console.log(payload);
+  // // const data = event.data.json(); // Assuming the server sends JSON
+
+  // const notificationTitle = payload.title;
+  // const notificationOptions = {
+  //   body: payload.content,
+  //   icon: payload.icon,
+  // };
+
+  // self.registration.showNotification(notificationTitle, notificationOptions);
+});
 
 // push 알림을 클릭했을시
+
 self.addEventListener("notificationclick", function (event) {
   console.log("notification click");
-  const url = "/";
+
+  const url = "/action";
   event.notification.close();
   event.waitUntil(clients.openWindow(url));
 });
