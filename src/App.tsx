@@ -16,10 +16,7 @@ import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
-import {
-  registerServiceWorker,
-  sendKeyToServer,
-} from "@utils/registerServiceWorker";
+import { sendKeyToServer } from "@utils/registerServiceWorker";
 import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
