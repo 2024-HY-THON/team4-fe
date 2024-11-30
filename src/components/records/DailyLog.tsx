@@ -1,40 +1,47 @@
 import { getDetailLog } from "@apis/calendar";
 import { EventDetailType, EventType } from "@type/calendar";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 export const DailyLog = ({
   eventList,
   filterRef,
+  date,
 }: {
+  date: Date;
   eventList: EventType[];
   filterRef: React.RefObject<HTMLDivElement>;
 }) => {
   const restId = eventList[0].reposeId;
   const [data, setData] = useState<EventDetailType | null>(null);
-  const [date, setDate] = useState<string[]>([]);
+  // const [date, setDate] = useState<string[]>([]);
 
   const fetchDetaillog = async () => {
     const response = await getDetailLog(restId);
+    console.log(response?.data.result);
     setData(response?.data.result);
 
-    if (data) {
-      const dateList = data.date.split("-");
-      setDate(dateList);
-    }
+    console.log();
+
+    // if (data) {
+    //   const dateList = data.date.split("-");
+    //   setDate(dateList);
+    // }
   };
 
   useEffect(() => {
     fetchDetaillog();
   }, []);
 
-  console.group(restId);
-
   return (
     <>
       <Dim />
       <Container ref={filterRef}>
-        <h2>나의 숨의 기록</h2>
+        <h2>
+          <span className="date">{moment(date).format("MM월 DD일")}</span>의
+          숨의 기록
+        </h2>
         <Summary>
           <div className="detail-summary-container">
             <div className="detail-summary">
@@ -55,9 +62,7 @@ export const DailyLog = ({
         </Summary>
 
         <Log>
-          <h3>
-            {date[1]}월 {date[2]}일은?
-          </h3>
+          <h3>당신의 하루는?</h3>
           <p>{data?.todayDefinition}</p>
         </Log>
       </Container>
@@ -108,8 +113,13 @@ const Container = styled.div`
   h2 {
     margin-bottom: 50px;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
     color: #1b1b1b;
+  }
+
+  .date {
+    color: #049dbf;
+    font-weight: 500;
   }
 `;
 
