@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { setTodayRest } from "@apis/setRest";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import timesUpSound from "@assets/timesUpSound.mp3";
 
 export const ReviewPage = () => {
   const [searchParams] = useSearchParams();
@@ -42,12 +43,34 @@ export const ReviewPage = () => {
       const response = setTodayRest(restId, requestBody);
       console.log("응답:", response);
     } catch (error) {
+      // 문서와의 상호 작용없을 시 발생
       console.error("전송 중 오류 발생:", error);
     }
   };
 
+  /**
+   * 타이머 끝난 후 시간
+   */
+  useEffect(() => {
+    const audioPlayer = document.getElementById("audio") as HTMLAudioElement;
+    if (audioPlayer) {
+      const playAudio = async () => {
+        try {
+          await audioPlayer.play();
+        } catch (error) {
+          console.error("소리 재생 실패", error);
+        }
+      };
+      playAudio();
+    }
+  }, []);
+
   return (
     <Container>
+      <figure>
+        <audio id="audio" src={timesUpSound}></audio>
+      </figure>
+
       <Section>
         <Title>
           <span style={{ color: "#0487D9" }}>하루</span>의 정의
