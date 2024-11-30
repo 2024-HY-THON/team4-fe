@@ -22,7 +22,6 @@ const EventCalendar = () => {
   // 날짜 업데이트
   const handleDateChange = (newDate: Value) => {
     setSelectedDate(newDate);
-    console.log(selectedDate);
   };
 
   // 월 업데이트
@@ -67,7 +66,11 @@ const EventCalendar = () => {
       return (
         <>
           {isSelected && filteredEventList.length > 0 && (
-            <DailyLog filterRef={filterRef} eventList={filteredEventList} />
+            <DailyLog
+              date={date}
+              filterRef={filterRef}
+              eventList={filteredEventList}
+            />
           )}
           {filteredEventList.length > 0 && (
             <Dot isSelected={isSelected && !isToday} />

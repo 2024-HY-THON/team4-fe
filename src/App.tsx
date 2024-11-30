@@ -17,6 +17,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
 import ActionPage from "@pages/action/ActionPage";
 import { SettingPage } from "@pages/profile/setting/setting";
+import { ChangeInfoPage } from "@pages/profile/setting/changeinfo";
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -75,6 +76,11 @@ function App() {
               {/* profile page */}
               <Route path="/profile" element={<ProfilePage />} />
 
+              {/* setting page */}
+              <Route path="/setting" element={<SettingPage />} />
+
+              {/* change-info page */}
+              <Route path="/changeinfo" element={<ChangeInfoPage />} />
               {/* setting page */}
               <Route path="/setting" element={<SettingPage />} />
 
