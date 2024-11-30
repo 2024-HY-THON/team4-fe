@@ -1,47 +1,52 @@
-// import { axiosInstance } from "@apis/axiosInstance";
-// import { useEffect, useState } from "react";
+import { axiosInstance } from "@apis/axiosInstance";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const MainPage = () => {
-  // const [timeList, setTimeList] = useState();
+  type toDoItem = {
+    startTime: string;
+    remainingMinutes: number;
+    todo: string;
+  };
+
+  const [timeList, setTimeList] = useState<toDoItem[]>([]);
   const navigate = useNavigate();
-  const testTimeList = [
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-  ];
 
-  // useEffect(() => {
-  //   const fetchTimeList = async () => {
-  //     try {
-  //       const response = await axiosInstance.get(`/sum/get-my-rest`);
-  //       console.log("성공적으로 알람 리스트 가져옴:", response.data);
-  //       setTimeList(response.data);
-  //     } catch (error) {
-  //       console.error("알람 리스트 가져오는 중 에러발생:", error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchTimeList = async () => {
+      try {
+        const response = await axiosInstance.get(`/sum/get-my-rest`);
+        console.log(
+          "성공적으로 알람 리스트 가져옴:",
+          response.data.result.reposeDTOs
+        );
+        const toDoData = response.data.result.reposeDTOs;
+        setTimeList(toDoData);
+      } catch (error) {
+        console.error("알람 리스트 가져오는 중 에러발생:", error);
+      }
+    };
 
-  //   fetchTimeList();
-  // }, []);
+    fetchTimeList();
+  }, []);
 
   return (
     <Container>
       {/* 시간 리스트 */}
       <TimeList>
-        {testTimeList.map((item, index) => (
+        {timeList.map((item, index) => (
           <TimeRow key={index}>
             <TimeText>
-              {item.time} ({item.duration})
+              {`${item.startTime.split(":")[0]} : ${
+                item.startTime.split(":")[1]
+              }`}{" "}
+              ({item.remainingMinutes}분)
             </TimeText>
             <button onClick={() => navigate(`/alarmEdit/${index}`)}>
               편집
             </button>
-            <Label>{item.label}</Label>
+            <Label>{item.todo}</Label>
           </TimeRow>
         ))}
       </TimeList>
