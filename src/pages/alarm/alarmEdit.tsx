@@ -3,7 +3,7 @@ import { AlarmFormat } from "./alarmFormat";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { axiosInstance } from "@apis/axiosInstance";
+// import { axiosInstance } from "@apis/axiosInstance";
 export const AlarmEditPage = () => {
   // const { id } = useParams();
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ export const AlarmEditPage = () => {
   // 데이터 저장 함수
   const handleSave = async () => {
     try {
-      const response = await axiosInstance.put("/api/alarm", alarmData); // 서버 엔드포인트에 맞게 수정
-      console.log("서버 응답:", response.data);
+      // const response = await axiosInstance.post("/api/alarm", alarmData); // 서버 엔드포인트에 맞게 수정
+      console.log("서버 응답:", alarmData);
       navigate("/main"); // 저장 후 이동할 경로
     } catch (error) {
       console.error("저장 중 오류 발생:", error);
