@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { setTodayRest } from "@apis/setRest";
 import { useSearchParams } from "react-router-dom";
