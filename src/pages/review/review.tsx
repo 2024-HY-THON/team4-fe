@@ -1,13 +1,31 @@
-import { axiosInstance } from "@apis/axiosInstance";
 import moment from "moment";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { setTodayRest } from "@apis/setRest";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import timesUpSound from "@assets/timesUpSound.mp3";
+import { useNavigate } from "react-router-dom";
 
 export const ReviewPage = () => {
   const todayDate = new globalThis.Date();
+  const [searchParams] = useSearchParams();
+  const [restId, setRestId] = useState<number>(0);
+
   const [dayDefinition, setDayDefinition] = useState("");
   const [emotionInfo, setEmotionInfo] = useState<string>(""); // textarea 상태 관리
   const [selected, setSelected] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const restIdFromParams = searchParams.get("restId");
+
+    if (restIdFromParams) {
+      setRestId(Number(restIdFromParams)); // 문자열을 숫자로 변환 후 설정
+    } else {
+      console.error("restId가 유효하지 않습니다.");
+    }
+  }, [searchParams]);
 
   const handleClick = (customType: string) => {
     setSelected(customType);
@@ -16,9 +34,8 @@ export const ReviewPage = () => {
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmotionInfo(e.target.value); // 입력값 업데이트
   };
+
   const handleSubmit = async () => {
-    // restId를 적절히 설정해주세요.
-    const restId = 1; // 예시: ID를 실제 데이터에 맞게 변경
     const satisfaction = selected === "satisfied";
 
     const requestBody = {
@@ -26,20 +43,43 @@ export const ReviewPage = () => {
       satisfaction: satisfaction,
       todayEmotion: emotionInfo,
     };
-
     try {
-      const response = await axiosInstance.post(
-        `/sum/today-rest/${restId}`,
-        requestBody
-      );
-      console.log("성공적으로 전송됨:", response.data);
+      const response = await setTodayRest(restId, requestBody);
+      console.log(response);
+
+      // 성공시 메인으로 네비게이트
+      if (response.isSuccess) {
+        navigate("/main");
+      }
     } catch (error) {
+      // 문서와의 상호 작용없을 시 발생
       console.error("전송 중 오류 발생:", error);
     }
   };
 
+  /**
+   * 타이머 끝난 후 시간
+   */
+  useEffect(() => {
+    const audioPlayer = document.getElementById("audio") as HTMLAudioElement;
+    if (audioPlayer) {
+      const playAudio = async () => {
+        try {
+          await audioPlayer.play();
+        } catch (error) {
+          console.error("소리 재생 실패", error);
+        }
+      };
+      playAudio();
+    }
+  }, []);
+
   return (
     <Container>
+      <figure>
+        <audio id="audio" src={timesUpSound}></audio>
+      </figure>
+
       <Section>
         <Title>
           <span style={{ color: "#049DBF" }}>하루</span>의 정의
@@ -54,7 +94,7 @@ export const ReviewPage = () => {
         </InputContainer>
         <ButtonGroup>
           <SatisfactionButton
-            customType="satisfied"
+            $customType="satisfied"
             onClick={() => handleClick("satisfied")}
             style={
               selected === "satisfied"
@@ -65,7 +105,7 @@ export const ReviewPage = () => {
             만족
           </SatisfactionButton>
           <SatisfactionButton
-            customType="unsatisfied"
+            $customType="unsatisfied"
             onClick={() => handleClick("unsatisfied")}
             style={
               selected === "unsatisfied"
@@ -104,6 +144,9 @@ const Container = styled.div`
   font-family: Arial, sans-serif;
   background-color: #ffffff; /* 배경색을 흰색으로 변경 */
   height: 100vh;
+  overflow-y: auto;
+
+  padding-bottom: 75px;
 `;
 
 const Section = styled.div`
@@ -142,14 +185,14 @@ const ButtonGroup = styled.div`
   justify-content: center; /* 버튼 중앙 배치 */
 `;
 
-const SatisfactionButton = styled.button<{ customType: string }>`
+const SatisfactionButton = styled.button<{ $customType: string }>`
   width: 320px; /* 버튼 너비 확대 */
   height: 50px; /* 버튼 높이 설정 */
   border: 1px solid;
   border-color: ${(props) =>
-    props.customType === "satisfied" ? "#049DBF" : "#D94C48"};
+    props.$customType === "satisfied" ? "#049DBF" : "#D94C48"};
   color: ${(props) =>
-    props.customType === "satisfied" ? "#049DBF" : "#D94C48"};
+    props.$customType === "satisfied" ? "#049DBF" : "#D94C48"};
   background-color: white;
   padding: 10px 20px;
   font-size: 16px;
@@ -157,7 +200,7 @@ const SatisfactionButton = styled.button<{ customType: string }>`
   margin-bottom: 30px;
   &:hover {
     background-color: ${(props) =>
-      props.customType === "satisfied" ? "#049DBF" : "#D94C48"};
+      props.$customType === "satisfied" ? "#049DBF" : "#D94C48"};
     color: white;
   }
   &:first-child {

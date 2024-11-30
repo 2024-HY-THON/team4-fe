@@ -58,10 +58,20 @@ self.addEventListener("push", function (e) {
 
   const resultData = e.data.json().data;
   const notificationTitle = resultData.title;
+
+  //TEST용
+  // const testRestID = "1";
+  // const testText = "노을 사진 찍기";
+  // const testURL = `/action?restId=${Number(testRestID)}&todo=${testText}`;
+
   const notificationOptions = {
     body: resultData.content ? resultData.content : resultData.body,
+    data: {
+      url: `/action?restId=${Number(resultData.restId)}&todo=${
+        resultData.text
+      }`,
+    },
   };
-  console.log("push: ", { resultData, notificationTitle, notificationOptions });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
   // console.log("push");
@@ -81,8 +91,12 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (event) {
   console.log("notification click");
+  console.log(event);
 
-  const url = "/action";
+  const url = event.notification.data.url;
+
+  // TODO /action/${restId}로 이동하게 할거임 url이 비워져있다면 /main으로 이동한다.
+  const finalUrl = url ? url : "/main";
   event.notification.close();
-  event.waitUntil(clients.openWindow(url));
+  event.waitUntil(clients.openWindow(finalUrl));
 });
