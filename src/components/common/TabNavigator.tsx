@@ -89,6 +89,7 @@ const Wrapper = styled.div`
   max-width: 400px;
   height: 78px;
   border-top: 1px solid #d4d4d4;
+  background-color: white;
 
   ul {
     display: flex;

@@ -1,6 +1,8 @@
 .profile-page {
-  padding: 20px;
-  font-family: Arial, sans-serif;
+  width: 100%;
+  height: 100vh;
+  padding: 20px 20px 100px 20px;
+  overflow: auto;
 }
 .header {
   padding: 10px;
@@ -14,10 +16,12 @@
   position: absolute;
   left: 0%;
   margin-left: 10px;
+  font-size: 20px;
+  font-weight: 600;
 }
 .settings-icon img {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   margin-left: 300px;
 }
@@ -29,25 +33,27 @@
 }
 
 .userimage {
-  width: 170px;
-  height: 170px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #dbdbdb;
   background-color: #d9d9d9;
-  border: 1px solid black;
   border-radius: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 7px;
 }
 .userName {
-  font-weight: 900;
-  font-size: 25px;
+  font-weight: 500;
+  font-size: 20px;
+  color: rgb(126, 126, 126);
 }
 .recipebox {
   margin-top: 20px;
-  border: 1px solid #8a8a8e;
-  box-shadow: #8a8a8e 5px 5px 3px 3px;
+  border: 1px solid #c7c7cc;
+  border-radius: 8px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   padding: 30px;
 }
 .highlight {
-  color: #0487d9; /* 원하는 색상으로 설정 */
+  color: #049dbf; /* 원하는 색상으로 설정 */
 }
 .recipebox ul {
   list-style-type: none;
@@ -71,7 +77,7 @@
 .add-recipe {
   margin-top: 10px;
   padding: 10px;
-  background-color: #0487d9;
+  background-color: #049dbf;
   color: white;
   border: none;
   cursor: pointer;
