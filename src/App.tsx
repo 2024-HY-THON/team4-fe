@@ -1,23 +1,23 @@
-import { Layout } from "@components/common/Layout";
-import { Splash } from "@components/common/Splash";
+import { Layout } from '@components/common/Layout';
+import { Splash } from '@components/common/Splash';
 
-import { TabNavigator } from "@components/common/TabNavigator";
-import { CommunityPage } from "@pages/community/community";
-import { LoginPage } from "@pages/login/login";
-import { MainPage } from "@pages/main/main";
-import { ProfilePage } from "@pages/profile/profile";
-import { RecordsPage } from "@pages/records/records";
-import { SignupPage } from "@pages/signup/signup";
-import { ReviewPage } from "@pages/review/review";
-import { AlarmAddPage } from "@pages/alarm/alarmAdd";
-import { AlarmEditPage } from "@pages/alarm/alarmEdit";
-import { useTabBarStore } from "@store/tabBarStore";
-import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { useShallow } from "zustand/shallow";
-// import { firebaseApp } from "./firebase.ts";
-import { registerServiceWorker } from "@utils/registerServiceWorker";
-import { SettingPage } from "@pages/profile/setting/setting";
+import { TabNavigator } from '@components/common/TabNavigator';
+import { CommunityPage } from '@pages/community/community';
+import { LoginPage } from '@pages/login/login';
+import { MainPage } from '@pages/main/main';
+import { ProfilePage } from '@pages/profile/profile';
+import { ChangeInfoPage } from '@pages/profile/setting/changeinfo';
+import { RecordsPage } from '@pages/records/records';
+import { SignupPage } from '@pages/signup/signup';
+import { ReviewPage } from '@pages/review/review';
+import { AlarmAddPage } from '@pages/alarm/alarmAdd';
+import { AlarmEditPage } from '@pages/alarm/alarmEdit';
+import { useTabBarStore } from '@store/tabBarStore';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useShallow } from 'zustand/shallow';
+import ActionPage from '@pages/action/ActionPage';
+import { SettingPage } from '@pages/profile/setting/setting';
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -29,12 +29,12 @@ function App() {
 
   useEffect(() => {
     const checkFirstVisit = () => {
-      const isFirstVisit = !sessionStorage.getItem("visited");
+      const isFirstVisit = !sessionStorage.getItem('visited');
 
       if (isFirstVisit) {
         setTimeout(() => {
           setIsSplashVisible(false);
-          sessionStorage.setItem("visited", "true");
+          sessionStorage.setItem('visited', 'true');
         }, 2000);
       } else {
         setIsSplashVisible(false);
@@ -42,11 +42,6 @@ function App() {
     };
 
     checkFirstVisit();
-  }, []);
-
-  useEffect(() => {
-    // 호출
-    registerServiceWorker();
   }, []);
 
   return (
@@ -59,6 +54,9 @@ function App() {
             <Routes>
               {/* 토큰 없으면 login으로 리다이렉트 */}
               <Route path="/" element={<Navigate to="/login" />} />
+
+              {/* 알림 받은 후 실제 실행 페이지 */}
+              <Route path="/action" element={<ActionPage />} />
 
               {/* main page */}
               <Route path="/main" element={<MainPage />} />
@@ -80,6 +78,9 @@ function App() {
 
               {/* setting page */}
               <Route path="/setting" element={<SettingPage />} />
+
+              {/* changeinfo page */}
+              <Route path="/changeinfo" element={<ChangeInfoPage />} />
 
               {/* review page */}
               <Route path="/review" element={<ReviewPage />} />
