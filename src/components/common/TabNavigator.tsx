@@ -103,6 +103,7 @@ const Wrapper = styled.div`
   max-width: 400px;
   height: 78px;
   border-top: 1px solid #bebebe;
+  background-color: white;
 
   ul {
     display: flex;

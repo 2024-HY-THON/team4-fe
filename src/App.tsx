@@ -18,6 +18,7 @@ import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
 import { registerServiceWorker } from "@utils/registerServiceWorker";
 import { SettingPage } from "@pages/profile/setting/setting";
+import { ChangeInfoPage } from "@pages/profile/setting/changeinfo";
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -80,6 +81,9 @@ function App() {
 
               {/* setting page */}
               <Route path="/setting" element={<SettingPage />} />
+
+              {/* setting page */}
+              <Route path="/changeinfo" element={<ChangeInfoPage />} />
 
               {/* review page */}
               <Route path="/review" element={<ReviewPage />} />

@@ -1,36 +1,27 @@
-import { useState, useEffect } from 'react';
-import './profile.css';
-import settingIcon from '@assets/profile/setting.svg';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import "./profile.css";
+import settingIcon from "@assets/profile/setting.svg";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo } from "@apis/profile";
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
-  const goToSettings = () => navigate('/setting');
+  const goToSettings = () => navigate("/setting");
 
-  const [userInfo, setUserInfo] = useState({ name: '', profileImage: '' });
+  const [userInfo, setUserInfo] = useState<string>("");
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
         // API URL 확인하기.
-        const userResponse = await fetch('https://api.example.com/user');
-        if (!userResponse.ok) throw new Error('Failed to fetch user data');
-        const userData = await userResponse.json();
-        setUserInfo({
-          name: userData.name,
-          profileImage: userData.profileImage,
-        });
-
-        const recipeResponse = await fetch('https://api.example.com/recipes');
-        if (!recipeResponse.ok) throw new Error('Failed to fetch recipes');
-        const recipeData = await recipeResponse.json();
-        setRecipes(recipeData);
+        const response = await getUserInfo();
+        if (response) setUserInfo(response.data.result.name);
+        console.log(userInfo);
       } catch (error) {
-        setError(error.message);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -40,7 +31,6 @@ export const ProfilePage = () => {
   }, []);
 
   if (isLoading) return <p>로딩 중...</p>;
-  if (error) return <p>에러 발생: {error}</p>;
 
   return (
     <div className="profile-page">
@@ -52,11 +42,8 @@ export const ProfilePage = () => {
       </header>
 
       <div className="profile-info">
-        <div
-          className="userimage"
-          style={{ backgroundImage: `url(${userInfo.profileImage})` }}
-        ></div>
-        <p className="userName">{userInfo.name}</p>
+        <div className="userimage"></div>
+        <p className="userName">{userInfo}</p>
       </div>
 
       <div className="recipebox">
@@ -64,7 +51,7 @@ export const ProfilePage = () => {
           나만의 <span className="highlight">해방</span> 레시피
         </h3>
         <ul>
-          {recipes.map((recipe) => (
+          {/* {recipes.map((recipe) => (
             // API 에서 반환되는 데이터 구조가 동일한지 확인하기 -> recipe.id , recipe.name, recipe.icon
             <li key={recipe.id}>
               {recipe.name}
@@ -72,9 +59,9 @@ export const ProfilePage = () => {
                 <img src={recipe.icon} alt="recipe Icon" />
               </span>
             </li>
-          ))}
+          ))} */}
         </ul>
-        <button className="add-recipe" onClick={() => navigate('/add-recipe')}>
+        <button className="add-recipe" onClick={() => navigate("/add-recipe")}>
           새로운 레시피 추가
         </button>
       </div>
