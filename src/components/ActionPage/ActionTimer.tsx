@@ -34,7 +34,6 @@ export default function ActionTimer({
     if (!clickedBtnFlag.current) {
       clickedBtnFlag.current = true;
     }
-
     if (!isTimeOut) {
       setRunTimer(!isRunTimer);
       return;
@@ -92,7 +91,6 @@ export default function ActionTimer({
     setRestSec(resSec.toString().padStart(2, "0"));
   }, [seconds]);
 
-  // NOTE review route 메인에서 연결할때만 쓰는지 확인 필요
   useEffect(() => {
     if (isTimeOut) {
       navigate(`/review?restId=${restId}`);

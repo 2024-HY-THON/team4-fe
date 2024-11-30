@@ -2,12 +2,13 @@ import ActionTimer from "@components/ActionPage/ActionTimer";
 import { styled } from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { setStartRest, setStopRest } from "@apis/setRest";
 
 export default function ActionPage() {
   const [searchParams] = useSearchParams();
   const [restId, setRestId] = useState<number>(0);
   const [toDo, setTodo] = useState<string>("");
-  const [seconds, setSeconds] = useState<number>(0);
+  const [seconds, setSeconds] = useState<number | null>(null);
 
   useEffect(() => {
     const restIdFromParams = searchParams.get("restId");
@@ -31,39 +32,28 @@ export default function ActionPage() {
 
   useEffect(() => {
     console.log("restId:", restId);
-    console.log("toDo:", toDo);
 
     const requestStartTimer = async () => {
-      // TODO test 후 주석 풀 것
-      // const response = await setStartRest(restId); // 타이머 시작 API 호출
-      // console.log("타이머 시작:", response);
+      //NOTE 10초로 설정
+      // NOTE 정지해야 시작이 가능함
+      const stopResopnse = await setStopRest(restId, { remainingSeconds: 5 });
+      console.log(stopResopnse);
+      const responseData = await setStartRest(restId); // 타이머 시작 API 호출
+      console.log("타이머 시작:", responseData);
 
-      // // isSuccess 실패시
-      // if (!response?.data.isSuccess) {
-      //   console.error(response?.data.message);
-      //   return;
-      // }
-
-      // NOTE data 형식을 모르겠음 확인할것 임시로 해놓음
-
-      const tmpMin = 0;
-      const tmpSec = 1;
-
-      const timerMin = tmpMin;
-      const timerSec = tmpSec;
-
-      // const seconds =
-      //   Number(response.data.minutes) * 60 + Number(response.data.second);
-
-      const seconds = timerMin * 60 + timerSec;
+      const { remainingMinutes, remainingSeconds } = responseData;
+      const seconds = remainingMinutes * 60 + remainingSeconds;
       setSeconds(seconds);
     };
-    requestStartTimer();
+
+    if (restId !== 0) {
+      requestStartTimer();
+    }
   }, [restId, toDo]);
 
   return (
     <Layout>
-      {!Number.isNaN(restId) && restId !== 0 && toDo !== "" ? (
+      {restId !== 0 && toDo !== "" && !!seconds ? (
         <ActionTimer restId={restId} toDo={toDo} initSeconds={seconds} />
       ) : (
         <div>Loading...</div>

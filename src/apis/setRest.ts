@@ -3,9 +3,13 @@ import { axiosInstance } from "./axiosInstance";
 export const setStartRest = async (restId: Number) => {
   try {
     const response = await axiosInstance.post(`/sum/start-rest/${restId}`);
-    if (!response.data.ok) return response;
-  } catch {
-    throw new Error("setStartRest ERROR");
+
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
+  } catch (e) {
+    console.error(e);
+    // throw new Error("setStartRest ERROR");
   }
 };
 
@@ -22,7 +26,9 @@ export const setStopRest = async (
 ) => {
   try {
     const response = await axiosInstance.post(`/sum/stop-rest/${restId}`, data);
-    return response;
+    if (response.data.isSuccess) {
+      return response.data.result;
+    }
   } catch {
     throw new Error("setStopRest ERROR");
   }
