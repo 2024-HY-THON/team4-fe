@@ -19,6 +19,13 @@ export const AlarmAddPage = () => {
   });
   const handleSubmit = async () => {
     try {
+      const requestBody = {
+        recipeId: parseInt(alarmData.activity, 10), // activity에 저장된 id 사용
+        minutes: parseInt(alarmData.rest, 10),
+        startHour: parseInt(alarmData.hour, 10),
+        startMinute: parseInt(alarmData.minute, 10),
+      };
+      console.log(requestBody);
       const response = await axiosInstance.post("/sum/add-rest", alarmData); // 서버 URL에 맞게 수정
       console.log("새 알람 추가시 서버 응답:", response.data);
       navigate("/main");

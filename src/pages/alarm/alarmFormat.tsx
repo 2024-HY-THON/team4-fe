@@ -22,7 +22,9 @@ export const AlarmFormat: React.FC<AlarmFormatProps> = ({
   onInputChange,
 }) => {
   // const [recipes, setRecipes] = useState<string[]>([]);
-  const [recipeLists, setRecipeList] = useState<Array<{ recipe: string }>>([]);
+  const [recipeLists, setRecipeList] = useState<
+    Array<{ id: number; recipe: string }>
+  >([]);
 
   useEffect(() => {
     const fetchTimeList = async () => {
@@ -64,14 +66,17 @@ export const AlarmFormat: React.FC<AlarmFormatProps> = ({
         <Label>{activityLabel}</Label>
         {/* 드롭다운 추가 */}
         <SelectInput
-          onChange={(e) => onInputChange?.("activity", e.target.value)}
+          onChange={(e) => {
+            const selectedId = e.target.value;
+            onInputChange?.("activity", selectedId);
+          }}
         >
           <option value="" disabled selected>
             선택하세요
           </option>
 
           {recipeLists.map((item, index) => (
-            <option key={index} value={item.recipe}>
+            <option key={index} value={item.id}>
               {item.recipe}
             </option>
           ))}
