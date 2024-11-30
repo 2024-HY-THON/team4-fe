@@ -199,8 +199,8 @@ const SignupFailedAlert = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 344px;
-  height: 64px;
+  width: 330px;
+  height: 60px;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.7);
   font-size: 16px;

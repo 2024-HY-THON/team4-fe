@@ -11,9 +11,12 @@ import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 
 export const SettingPage = () => {
   const navigate = useNavigate(); // useNavigate 훅 사용
-
   const goToProfile = () => {
     navigate('/profile'); // /profile 경로로 이동
+  };
+
+  const goToChangeInfo = () => {
+    navigate('/changeinfo'); // /setting 경로로 이동
   };
   return (
     <div className="container">
@@ -26,12 +29,11 @@ export const SettingPage = () => {
         />
         <h1 className="title">Settings</h1>
       </div>
-
       {/* 계정 섹션 */}
       <div className="section">
         <h2 className="section-title">계정</h2>
         <div className="box">
-          <div className="item">
+          <div className="item" onClick={goToChangeInfo}>
             <img src={information} alt="Settings Icon" />
             <p className="text">개인정보 변경</p>
           </div>

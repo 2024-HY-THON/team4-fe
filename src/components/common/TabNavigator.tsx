@@ -3,8 +3,6 @@ import mainUnactive from "@assets/common/main-unactive.svg";
 import mainActive from "@assets/common/main-active.svg";
 import recordsUnactive from "@assets/common/records-unactive.svg";
 import recordsActive from "@assets/common/records-active.svg";
-import communityUnactive from "@assets/common/community-unactive.svg";
-import communityActive from "@assets/common/community-active.svg";
 import profileUnactive from "@assets/common/profile-unactive.svg";
 import profileActive from "@assets/common/profile-active.svg";
 import { Link, useLocation } from "react-router-dom";
@@ -19,13 +17,20 @@ export const TabNavigator = () => {
         <Link to="/main">
           <li>
             <img
-              src={path.startsWith("/main") ? mainActive : mainUnactive}
+              src={
+                path.startsWith("/main") || path.startsWith("/alarmAdd")
+                  ? mainActive
+                  : mainUnactive
+              }
               alt="main-nav-icon
           "
             />
             <strong
               style={{
-                color: path.startsWith("/main") ? "#1b1b1b" : "#8B8B8B",
+                color:
+                  path.startsWith("/main") || path.startsWith("/alarmAdd")
+                    ? "#1b1b1b"
+                    : "#8B8B8B",
               }}
             >
               홈
@@ -50,26 +55,7 @@ export const TabNavigator = () => {
             </strong>
           </li>
         </Link>
-        <Link to="/community">
-          <li>
-            <img
-              src={
-                path.startsWith("/community")
-                  ? communityActive
-                  : communityUnactive
-              }
-              alt="records-nav-icon
-          "
-            />
-            <strong
-              style={{
-                color: path.startsWith("/community") ? "#1b1b1b" : "#8B8B8B",
-              }}
-            >
-              커뮤니티
-            </strong>
-          </li>
-        </Link>
+
         <Link to="/profile">
           <li>
             <img
@@ -102,12 +88,13 @@ const Wrapper = styled.div`
   min-width: 375px;
   max-width: 400px;
   height: 78px;
-  border-top: 1px solid #bebebe;
+  border-top: 1px solid #d4d4d4;
+  background-color: white;
 
   ul {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 40px;
     height: 62px;
   }
 
