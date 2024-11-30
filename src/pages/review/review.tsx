@@ -4,6 +4,7 @@ import { setTodayRest } from "@apis/setRest";
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import timesUpSound from "@assets/timesUpSound.mp3";
+import { useNavigate } from "react-router-dom";
 
 export const ReviewPage = () => {
   const [searchParams] = useSearchParams();
@@ -12,6 +13,7 @@ export const ReviewPage = () => {
   const [dayDefinition, setDayDefinition] = useState("");
   const [emotionInfo, setEmotionInfo] = useState<string>(""); // textarea 상태 관리
   const [selected, setSelected] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const restIdFromParams = searchParams.get("restId");
@@ -40,8 +42,13 @@ export const ReviewPage = () => {
       todayEmotion: emotionInfo,
     };
     try {
-      const response = setTodayRest(restId, requestBody);
-      console.log("응답:", response);
+      const response = await setTodayRest(restId, requestBody);
+      console.log(response);
+
+      // 성공시 메인으로 네비게이트
+      if (response.isSuccess) {
+        navigate("/main");
+      }
     } catch (error) {
       // 문서와의 상호 작용없을 시 발생
       console.error("전송 중 오류 발생:", error);
