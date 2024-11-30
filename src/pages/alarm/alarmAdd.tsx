@@ -26,7 +26,7 @@ export const AlarmAddPage = () => {
         startMinute: parseInt(alarmData.minute, 10),
       };
       console.log(requestBody);
-      const response = await axiosInstance.post("/sum/add-rest", alarmData); // 서버 URL에 맞게 수정
+      const response = await axiosInstance.post("/sum/add-rest", requestBody); // 서버 URL에 맞게 수정
       console.log("새 알람 추가시 서버 응답:", response.data);
       navigate("/main");
     } catch (error) {
