@@ -18,7 +18,6 @@ import { useShallow } from "zustand/shallow";
 // import { firebaseApp } from "./firebase.ts";
 import { registerServiceWorker } from "@utils/registerServiceWorker";
 import { SettingPage } from "@pages/profile/setting/setting";
-import { ChangeInfoPage } from "@pages/profile/setting/changeinfo";
 
 function App() {
   const { isTabBarVisible } = useTabBarStore(
@@ -45,11 +44,6 @@ function App() {
     checkFirstVisit();
   }, []);
 
-  useEffect(() => {
-    // 호출
-    registerServiceWorker();
-  }, []);
-
   return (
     <BrowserRouter>
       <Layout>
@@ -60,6 +54,9 @@ function App() {
             <Routes>
               {/* 토큰 없으면 login으로 리다이렉트 */}
               <Route path="/" element={<Navigate to="/login" />} />
+
+              {/* 알림 받은 후 실제 실행 페이지 */}
+              <Route path="/action" element={<ActionPage />} />
 
               {/* main page */}
               <Route path="/main" element={<MainPage />} />
@@ -81,9 +78,6 @@ function App() {
 
               {/* setting page */}
               <Route path="/setting" element={<SettingPage />} />
-
-              {/* setting page */}
-              <Route path="/changeinfo" element={<ChangeInfoPage />} />
 
               {/* review page */}
               <Route path="/review" element={<ReviewPage />} />
