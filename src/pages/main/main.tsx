@@ -40,8 +40,8 @@ export const MainPage = () => {
             <TimeText>
               {`${item.startTime.split(":")[0]} : ${
                 item.startTime.split(":")[1]
-              }`}{" "}
-              ({item.remainingMinutes}분)
+              }`}
+              <span>({item.remainingMinutes}분)</span>
             </TimeText>
 
             <Label>{item.todo}</Label>
@@ -86,11 +86,30 @@ const TimeRow = styled.div`
   align-items: center;
   padding: 10px 20px;
   border-bottom: 1px solid #ddd;
+
+  button {
+    width: 34px;
+    height: 24px;
+    border: 1px solid #9bcff0;
+    border-radius: 6px;
+    background-color: #9bcff0;
+    color: white;
+    font-size: 10px;
+    font-weight: 400;
+    cursor: pointer;
+  }
 `;
 
 const TimeText = styled.span`
   font-size: 16px;
   color: #333;
+
+  span {
+    margin-left: 40px;
+    color: #8d8d8d;
+    font-size: 15px;
+    font-weight: 400;
+  }
 `;
 
 const Label = styled.span`
@@ -112,7 +131,7 @@ const Banner = styled.div`
 const AddButton = styled.button`
   width: 90%;
   padding: 15px;
-  background-color: #0487d9;
+  background-color: #049dbf;
   color: #fff;
   border: none;
   border-radius: 10px;

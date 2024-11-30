@@ -114,8 +114,9 @@ const Content = styled.div`
 `;
 
 const TimerTitle = styled.div`
-  font-size: 27px;
+  font-size: 25px;
   margin: 0px 0px 20px 10px; // 상 우 하 좌
+  color: #049dbf;
 `;
 
 const TimeInputContainer = styled.div`
@@ -154,10 +155,12 @@ const SelectInput = styled.select`
   font-size: 16px;
   border: 1px solid #e1e4e5;
   background-color: #ffffff;
+  margin-bottom: 17px;
 `;
 const TextInput = styled.input`
   font-size: 16px;
   border: none;
   background-color: #ffffff;
   width: 20%;
+  margin-bottom: 17px;
 `;
