@@ -2,13 +2,22 @@ import { loginUser } from "@apis/signup";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
+import { sendKeyToServer } from "@utils/registerServiceWorker";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) navigate("/main");
+
+    const afterLogin = async (accessToken: string | null) => {
+      if (accessToken) {
+        await sendKeyToServer(0);
+        navigate("/main");
+      }
+    };
+
+    afterLogin(accessToken);
   }, []);
 
   const [inputValue, setInputValue] = useState({
@@ -214,8 +223,8 @@ const SignupFailedAlert = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 344px;
-  height: 64px;
+  width: 330px;
+  height: 60px;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.7);
   font-size: 16px;

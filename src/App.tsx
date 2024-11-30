@@ -15,8 +15,7 @@ import { useTabBarStore } from "@store/tabBarStore";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { useShallow } from "zustand/shallow";
-// import { firebaseApp } from "./firebase.ts";
-import { registerServiceWorker } from "@utils/registerServiceWorker";
+import ActionPage from "@pages/action/ActionPage";
 import { SettingPage } from "@pages/profile/setting/setting";
 
 function App() {
