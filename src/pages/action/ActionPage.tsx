@@ -2,11 +2,13 @@ import ActionTimer from "@components/ActionPage/ActionTimer";
 import { styled } from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { setStartRest } from "@apis/setRest";
 
 export default function ActionPage() {
   const [searchParams] = useSearchParams();
   const [restId, setRestId] = useState<number>(0);
   const [toDo, setTodo] = useState<string>("");
+  const [seconds, setSeconds] = useState<number>(0);
 
   useEffect(() => {
     const restIdFromParams = searchParams.get("restId");
@@ -31,12 +33,39 @@ export default function ActionPage() {
   useEffect(() => {
     console.log("restId:", restId);
     console.log("toDo:", toDo);
+
+    const requestStartTimer = async () => {
+      // TODO test 후 주석 풀 것
+      // const response = await setStartRest(restId); // 타이머 시작 API 호출
+      // console.log("타이머 시작:", response);
+
+      // // isSuccess 실패시
+      // if (!response?.data.isSuccess) {
+      //   console.error(response?.data.message);
+      //   return;
+      // }
+
+      // NOTE data 형식을 모르겠음 확인할것 임시로 해놓음
+
+      const tmpMin = 1;
+      const tmpSec = 1;
+
+      const timerMin = tmpMin;
+      const timerSec = tmpSec;
+
+      // const seconds =
+      //   Number(response.data.minutes) * 60 + Number(response.data.second);
+
+      const seconds = timerMin * 60 + timerSec;
+      setSeconds(seconds);
+    };
+    requestStartTimer();
   }, [restId, toDo]);
 
   return (
     <Layout>
       {!Number.isNaN(restId) && restId !== 0 && toDo !== "" ? (
-        <ActionTimer restId={restId} toDo={toDo} />
+        <ActionTimer restId={restId} toDo={toDo} initSeconds={seconds} />
       ) : (
         <div>Loading...</div>
       )}

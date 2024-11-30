@@ -1,38 +1,132 @@
 import { styled } from "styled-components";
 import sumLogo from "@assets/main-page-icon-sum.svg";
+import { useEffect, useState } from "react";
+import { setStartRest, setStopRest, setTodayRest } from "@apis/setRest";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { error } from "console";
 
 /**
  * 실제 실행 페이지의 타이머 컴포넌트
  * @returns
  */
-export default function ActionTimer() {
-  // TODO API로 추후에 대체
-  const TMP_SUM_TODO = "창가 바라보기";
-  const INIT_STATE_BTN = "시작";
+export default function ActionTimer({
+  restId,
+  toDo,
+  initSeconds,
+}: {
+  restId: number;
+  toDo: string;
+  initSeconds: number;
+}) {
+  const TEST_TIMER = 5000;
+
+  // false시 타이머 비활성화 상태
+  const [isRunTimer, setRunTimer] = useState<Boolean>(false);
+  const clickedBtnFlag = useRef<Boolean>(false);
+  const [seconds, setSeconds] = useState<number>(initSeconds); // 타이머 초
+  const timerRef = useRef<NodeJS.Timeout | undefined>(undefined); // setInterval 참조 저장
+  const navigate = useNavigate();
+
+  const [isTimeOut, setTimeOutFlag] = useState<boolean>(false);
+  const [min, setRestMin] = useState<string>("");
+  const [sec, setRestSec] = useState<string>("");
+
+  const onClickActionButton = () => {
+    // 버튼 누름 여부 flag 1회만 실행
+    if (!clickedBtnFlag.current) {
+      clickedBtnFlag.current = true;
+    }
+
+    if (!isTimeOut) {
+      setRunTimer(!isRunTimer);
+      return;
+    }
+    setRunTimer(false);
+  };
+
+  useEffect(() => {
+    if (isRunTimer) {
+      timerRef.current = setInterval(() => {
+        setSeconds((prev) => {
+          if (prev <= 0) {
+            clearInterval(timerRef.current); // 타이머 종료
+            timerRef.current = undefined;
+            setTimeOutFlag(true);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } else {
+      if (clickedBtnFlag.current && timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = undefined;
+        // 남은 시간 서버로 전송
+
+        console.log(`타이머 중지 , 서버로 남은 시간 전송 : ${seconds}`);
+        setStopRest(restId, { remainingSeconds: seconds })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err: Error) => {
+            console.error("남은 시간 전송하며 error 발생");
+            console.error(err);
+          });
+      }
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current); // 컴포넌트 언마운트 시 타이머 정리
+      }
+    };
+  }, [isRunTimer, restId, initSeconds]);
+
+  const formatTime = (seconds: number) => {
+    const restMin = Math.floor(seconds / 60); // 전체 분
+    const resSec = seconds % 60; // 남은 초
+    return { restMin, resSec };
+  };
+
+  useEffect(() => {
+    const { restMin, resSec } = formatTime(seconds);
+    setRestMin(restMin.toString().padStart(2, "0"));
+    setRestSec(resSec.toString().padStart(2, "0"));
+  }, [seconds]);
+
+  useEffect(() => {
+    if (isTimeOut) {
+      navigate(`/review?restId=${restId}`);
+    }
+  }, [isTimeOut]);
 
   return (
     <Layout>
       <TimerLayout>
         <ContentLayout>
           <SumTimer>
-            <ol>숨쉬는중</ol>
-            {/* TODO 타이머 기능 구현해야함 */}
-            <ol>00:00</ol>
+            <ol>숨 쉬는 중</ol>
+            <ol>
+              {min}:{sec}
+            </ol>
           </SumTimer>
-          {/* TODO sumLogo 추후에 고화질로 대체  */}
 
+          {/* TODO sumLogo 추후에 고화질로 대체  */}
           <SumItem>
             <SumIconImg src={sumLogo}></SumIconImg>
           </SumItem>
 
           <SumItem>
-            <SumTodo>"{TMP_SUM_TODO}"</SumTodo>
+            <SumTodo>"{toDo}"</SumTodo>
           </SumItem>
         </ContentLayout>
       </TimerLayout>
 
       <BtnLayout>
-        <Button>{INIT_STATE_BTN}</Button>
+        <Button onClick={onClickActionButton}>
+          {isRunTimer ? "중지" : "시작"}
+        </Button>
       </BtnLayout>
     </Layout>
   );
