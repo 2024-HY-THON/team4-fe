@@ -135,6 +135,9 @@ const Container = styled.div`
   font-family: Arial, sans-serif;
   background-color: #ffffff; /* 배경색을 흰색으로 변경 */
   height: 100vh;
+  overflow-y: auto;
+
+  padding-bottom: 75px;
 `;
 
 const Section = styled.div`
