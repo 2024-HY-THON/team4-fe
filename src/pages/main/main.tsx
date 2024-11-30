@@ -43,10 +43,11 @@ export const MainPage = () => {
               }`}{" "}
               ({item.remainingMinutes}분)
             </TimeText>
+
+            <Label>{item.todo}</Label>
             <button onClick={() => navigate(`/alarmEdit/${index}`)}>
               편집
             </button>
-            <Label>{item.todo}</Label>
           </TimeRow>
         ))}
       </TimeList>
@@ -94,7 +95,7 @@ const TimeText = styled.span`
 
 const Label = styled.span`
   font-size: 14px;
-  color: #007bff;
+  color: #0487d9;
   cursor: pointer;
 `;
 
@@ -111,7 +112,7 @@ const Banner = styled.div`
 const AddButton = styled.button`
   width: 90%;
   padding: 15px;
-  background-color: #007bff;
+  background-color: #0487d9;
   color: #fff;
   border: none;
   border-radius: 10px;
@@ -120,6 +121,6 @@ const AddButton = styled.button`
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #0487d9;
   }
 `;
