@@ -87,7 +87,7 @@ const BackButton = styled.button`
 const AddButton = styled.button`
   width: 90%;
   padding: 15px;
-  background-color: #007bff;
+  background-color: #0487d9;
   color: #fff;
   border: none;
   border-radius: 10px;

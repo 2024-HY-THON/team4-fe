@@ -151,15 +151,13 @@ const Label = styled.div`
   font-size: 18px;
 `;
 const SelectInput = styled.select`
-  width: 60%;
   font-size: 16px;
   border: 1px solid #e1e4e5;
   background-color: #ffffff;
-  padding: 5px;
 `;
 const TextInput = styled.input`
-  width: 60%;
   font-size: 16px;
   border: none;
   background-color: #ffffff;
+  width: 20%;
 `;
