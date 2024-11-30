@@ -1,18 +1,18 @@
 // import { axiosInstance } from "@apis/axiosInstance";
 // import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const MainPage = () => {
   // const [timeList, setTimeList] = useState();
   const navigate = useNavigate();
   const testTimeList = [
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
-    { time: "11 : 20", duration: "5분", label: "낮잠자기" },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
+    { time: '11 : 20', duration: '5분', label: '낮잠자기' },
   ];
 
   // useEffect(() => {
@@ -50,7 +50,7 @@ export const MainPage = () => {
       <Banner>창가에서 보이는 하늘을 바라보는 게 어때요?</Banner>
 
       {/* 추가하기 버튼 */}
-      <AddButton onClick={() => navigate("/alarmAdd")}>추가하기</AddButton>
+      <AddButton onClick={() => navigate('/alarmAdd')}>추가하기</AddButton>
     </Container>
   );
 };
@@ -63,7 +63,7 @@ const Container = styled.div`
   width: 100%;
   max-width: 375px;
   margin: 0 auto;
-  font-family: "Arial", sans-serif;
+  font-family: 'Arial', sans-serif;
   padding-top: 80px;
 `;
 

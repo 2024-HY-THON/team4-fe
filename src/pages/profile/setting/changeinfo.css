@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   justify-content: center; /* 제목을 중앙에 정렬 */
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 /* 백페이지 아이콘 */
@@ -33,10 +33,49 @@
   background-color: #d9d9d9;
   border: 1px solid black;
   border-radius: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+  margin-top: 30px;
 }
-
+.infobox div {
+  color: black;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
 .infobox input {
   background-color: white;
-  border: none;
+  color: black;
+  width: 350px;
+  height: 35px;
+  border: #544c4c 1px solid;
+  border-radius: 5px;
+  margin-bottom: 13px;
+}
+
+.save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 44px;
+  border-radius: 10px;
+  color: white;
+  background-color: #049dbf;
+  font-size: 18px;
+  font-weight: 500;
+  margin-left: 30px;
+}
+
+.save:hover {
+  background-color: #0367a6;
+}
+
+.logout {
+  margin-top: 10px;
+  margin-left: 230px;
+  display: flex;
+  color: blue;
+  cursor: pointer;
+}
+.logout img {
+  margin-right: 10px;
 }
