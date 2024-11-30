@@ -1,11 +1,27 @@
 import { axiosInstance } from "@apis/axiosInstance";
 import React, { useState } from "react";
 import styled from "styled-components";
+import { setTodayRest } from "@apis/setRest";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export const ReviewPage = () => {
+  const [searchParams] = useSearchParams();
+  const [restId, setRestId] = useState<number>(0);
+
   const [dayDefinition, setDayDefinition] = useState("");
   const [emotionInfo, setEmotionInfo] = useState<string>(""); // textarea 상태 관리
   const [selected, setSelected] = useState("");
+
+  useEffect(() => {
+    const restIdFromParams = searchParams.get("restId");
+
+    if (restIdFromParams) {
+      setRestId(Number(restIdFromParams)); // 문자열을 숫자로 변환 후 설정
+    } else {
+      console.error("restId가 유효하지 않습니다.");
+    }
+  }, [searchParams]);
 
   const handleClick = (customType: string) => {
     setSelected(customType);
@@ -14,9 +30,8 @@ export const ReviewPage = () => {
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setEmotionInfo(e.target.value); // 입력값 업데이트
   };
+
   const handleSubmit = async () => {
-    // restId를 적절히 설정해주세요.
-    const restId = 1; // 예시: ID를 실제 데이터에 맞게 변경
     const satisfaction = selected === "satisfied";
 
     const requestBody = {
@@ -24,13 +39,9 @@ export const ReviewPage = () => {
       satisfaction: satisfaction,
       todayEmotion: emotionInfo,
     };
-
     try {
-      const response = await axiosInstance.post(
-        `/sum/today-rest/${restId}`,
-        requestBody
-      );
-      console.log("성공적으로 전송됨:", response.data);
+      const response = setTodayRest(restId, requestBody);
+      console.log("응답:", response);
     } catch (error) {
       console.error("전송 중 오류 발생:", error);
     }
@@ -52,7 +63,7 @@ export const ReviewPage = () => {
         </InputContainer>
         <ButtonGroup>
           <SatisfactionButton
-            customType="satisfied"
+            $customType="satisfied"
             onClick={() => handleClick("satisfied")}
             style={
               selected === "satisfied"
@@ -63,7 +74,7 @@ export const ReviewPage = () => {
             만족
           </SatisfactionButton>
           <SatisfactionButton
-            customType="unsatisfied"
+            $customType="unsatisfied"
             onClick={() => handleClick("unsatisfied")}
             style={
               selected === "unsatisfied"
@@ -138,14 +149,14 @@ const ButtonGroup = styled.div`
   justify-content: center; /* 버튼 중앙 배치 */
 `;
 
-const SatisfactionButton = styled.button<{ customType: string }>`
+const SatisfactionButton = styled.button<{ $customType: string }>`
   width: 320px; /* 버튼 너비 확대 */
   height: 50px; /* 버튼 높이 설정 */
   border: 2px solid;
   border-color: ${(props) =>
-    props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+    props.$customType === "satisfied" ? "#7ED957" : "#F68B2C"};
   color: ${(props) =>
-    props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+    props.$customType === "satisfied" ? "#7ED957" : "#F68B2C"};
   background-color: white;
   padding: 10px 20px;
   font-size: 16px;
