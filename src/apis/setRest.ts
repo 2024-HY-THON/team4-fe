@@ -26,6 +26,7 @@ export const setStopRest = async (
 ) => {
   try {
     const response = await axiosInstance.post(`/sum/stop-rest/${restId}`, data);
+
     if (response.data.isSuccess) {
       return response.data.result;
     }
@@ -53,7 +54,8 @@ export const setTodayRest = async (
       `/sum/today-rest/${restId}`,
       data
     );
-    return response;
+    console.log(response);
+    return response.data;
   } catch {
     throw new Error("setTodayRest ERROR");
   }
