@@ -18,7 +18,9 @@ export const TabNavigator = () => {
           <li>
             <img
               src={
-                path.startsWith("/main") || path.startsWith("/alarmAdd")
+                path.startsWith("/main") ||
+                path.startsWith("/alarmAdd") ||
+                path.startsWith("/alarmEdit")
                   ? mainActive
                   : mainUnactive
               }
@@ -28,7 +30,9 @@ export const TabNavigator = () => {
             <strong
               style={{
                 color:
-                  path.startsWith("/main") || path.startsWith("/alarmAdd")
+                  path.startsWith("/main") ||
+                  path.startsWith("/alarmAdd") ||
+                  path.startsWith("/alarmEdit")
                     ? "#1b1b1b"
                     : "#8B8B8B",
               }}

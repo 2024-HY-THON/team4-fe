@@ -67,8 +67,8 @@ const Header = styled.div`
 const Title = styled.div`
   text-align: center;
   flex: 1;
-  font-size: 25px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 600;
 `;
 
 const SaveButton = styled.button`
