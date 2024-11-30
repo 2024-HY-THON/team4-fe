@@ -1,4 +1,3 @@
-import { axiosInstance } from "@apis/axiosInstance";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { setTodayRest } from "@apis/setRest";
@@ -164,7 +163,7 @@ const SatisfactionButton = styled.button<{ $customType: string }>`
   margin-bottom: 30px;
   &:hover {
     background-color: ${(props) =>
-      props.customType === "satisfied" ? "#7ED957" : "#F68B2C"};
+      props.$customType === "satisfied" ? "#7ED957" : "#F68B2C"};
     color: white;
   }
   &:first-child {

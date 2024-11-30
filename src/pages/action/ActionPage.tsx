@@ -2,7 +2,6 @@ import ActionTimer from "@components/ActionPage/ActionTimer";
 import { styled } from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { setStartRest } from "@apis/setRest";
 
 export default function ActionPage() {
   const [searchParams] = useSearchParams();
@@ -47,7 +46,7 @@ export default function ActionPage() {
 
       // NOTE data 형식을 모르겠음 확인할것 임시로 해놓음
 
-      const tmpMin = 1;
+      const tmpMin = 0;
       const tmpSec = 1;
 
       const timerMin = tmpMin;

@@ -1,10 +1,9 @@
 import { styled } from "styled-components";
 import sumLogo from "@assets/main-page-icon-sum.svg";
 import { useEffect, useState } from "react";
-import { setStartRest, setStopRest, setTodayRest } from "@apis/setRest";
+import { setStopRest } from "@apis/setRest";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
-import { error } from "console";
 
 /**
  * 실제 실행 페이지의 타이머 컴포넌트
@@ -19,8 +18,6 @@ export default function ActionTimer({
   toDo: string;
   initSeconds: number;
 }) {
-  const TEST_TIMER = 5000;
-
   // false시 타이머 비활성화 상태
   const [isRunTimer, setRunTimer] = useState<Boolean>(false);
   const clickedBtnFlag = useRef<Boolean>(false);
@@ -95,6 +92,7 @@ export default function ActionTimer({
     setRestSec(resSec.toString().padStart(2, "0"));
   }, [seconds]);
 
+  // NOTE review route 메인에서 연결할때만 쓰는지 확인 필요
   useEffect(() => {
     if (isTimeOut) {
       navigate(`/review?restId=${restId}`);
