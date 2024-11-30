@@ -1,23 +1,46 @@
+import { axiosInstance } from "@apis/axiosInstance";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 type AlarmFormatProps = {
   timerTitle?: string;
   timerPlaceholder?: { hour: string; minute: string };
   activityLabel?: string;
-  activityPlaceholder?: string;
+
   restLabel?: string;
   restPlaceholder?: string;
   onInputChange?: (key: string, value: string) => void; // 추가된 부분
 };
+
 export const AlarmFormat: React.FC<AlarmFormatProps> = ({
   timerTitle = "숨 쉴 시간",
   timerPlaceholder = { hour: "00", minute: "00" },
   activityLabel = "활동 내용",
-  activityPlaceholder = "하늘보기",
+
   restLabel = "휴식 시간(분)",
   restPlaceholder = "5",
   onInputChange,
 }) => {
+  // const [recipes, setRecipes] = useState<string[]>([]);
+  const [recipeLists, setRecipeList] = useState<Array<{ recipe: string }>>([]);
+
+  useEffect(() => {
+    const fetchTimeList = async () => {
+      try {
+        const response = await axiosInstance.get(`/sum/get-my-recipe`);
+        const recipeList = response.data.result.recipes;
+        setRecipeList(recipeList);
+        // const recipeNames = recipeList.map(
+        //   (item: { recipe: string }) => item.recipe
+        // );
+        // setRecipes(recipeNames);
+      } catch (error) {
+        console.error("알람 리스트 가져오는 중 에러발생:", error);
+      }
+    };
+
+    fetchTimeList();
+  }, []);
   return (
     <Body>
       <Content>
@@ -39,11 +62,20 @@ export const AlarmFormat: React.FC<AlarmFormatProps> = ({
       </Content>
       <Field>
         <Label>{activityLabel}</Label>
-        <TextInput
-          type="text"
-          placeholder={activityPlaceholder}
+        {/* 드롭다운 추가 */}
+        <SelectInput
           onChange={(e) => onInputChange?.("activity", e.target.value)}
-        />
+        >
+          <option value="" disabled selected>
+            선택하세요
+          </option>
+
+          {recipeLists.map((item, index) => (
+            <option key={index} value={item.recipe}>
+              {item.recipe}
+            </option>
+          ))}
+        </SelectInput>
       </Field>
       <Field>
         <Label>{restLabel}</Label>
@@ -113,7 +145,13 @@ const Field = styled.div`
 const Label = styled.div`
   font-size: 18px;
 `;
-
+const SelectInput = styled.select`
+  width: 60%;
+  font-size: 16px;
+  border: 1px solid #e1e4e5;
+  background-color: #ffffff;
+  padding: 5px;
+`;
 const TextInput = styled.input`
   width: 60%;
   font-size: 16px;

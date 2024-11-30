@@ -39,7 +39,6 @@ export const AlarmEditPage = () => {
         timerTitle="숨 쉴 시간"
         timerPlaceholder={{ hour: "00", minute: "00" }}
         activityLabel="활동 내용"
-        activityPlaceholder="하늘보기"
         restLabel="휴식 시간(분)"
         restPlaceholder="5"
         onInputChange={(key, value) =>
