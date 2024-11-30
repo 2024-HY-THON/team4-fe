@@ -2,7 +2,7 @@ import ActionTimer from "@components/ActionPage/ActionTimer";
 import { styled } from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { setStartRest, setStopRest } from "@apis/setRest";
+import { setStartRest } from "@apis/setRest";
 
 export default function ActionPage() {
   const [searchParams] = useSearchParams();
@@ -34,10 +34,8 @@ export default function ActionPage() {
     console.log("restId:", restId);
 
     const requestStartTimer = async () => {
-      //NOTE 10초로 설정
-      // NOTE 정지해야 시작이 가능함
-      const stopResopnse = await setStopRest(restId, { remainingSeconds: 5 });
-      console.log(stopResopnse);
+      // const stopResopnse = await setStopRest(restId, { remainingSeconds: 5 });
+      // console.log(stopResopnse);
       const responseData = await setStartRest(restId); // 타이머 시작 API 호출
       console.log("타이머 시작:", responseData);
 
