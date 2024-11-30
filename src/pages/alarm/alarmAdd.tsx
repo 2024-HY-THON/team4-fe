@@ -3,7 +3,6 @@ import { AlarmFormat } from "./alarmFormat";
 import backButtonIcon from "@assets/alarmEdit/backbutton.svg";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 import { axiosInstance } from "@apis/axiosInstance";
 
 export const AlarmAddPage = () => {
@@ -19,7 +18,14 @@ export const AlarmAddPage = () => {
   });
   const handleSubmit = async () => {
     try {
-      const response = await axiosInstance.post("/sum/add-rest", alarmData); // 서버 URL에 맞게 수정
+      const requestBody = {
+        recipeId: parseInt(alarmData.activity, 10), // activity에 저장된 id 사용
+        minutes: parseInt(alarmData.rest, 10),
+        startHour: parseInt(alarmData.hour, 10),
+        startMinute: parseInt(alarmData.minute, 10),
+      };
+      console.log(requestBody);
+      const response = await axiosInstance.post("/sum/add-rest", requestBody); // 서버 URL에 맞게 수정
       console.log("새 알람 추가시 서버 응답:", response.data);
       navigate("/main");
     } catch (error) {
@@ -38,7 +44,6 @@ export const AlarmAddPage = () => {
         timerTitle="숨 쉴 시간"
         timerPlaceholder={{ hour: "00", minute: "00" }}
         activityLabel="활동 내용"
-        activityPlaceholder="하늘보기"
         restLabel="휴식 시간(분)"
         restPlaceholder="5"
         onInputChange={(key, value) =>
